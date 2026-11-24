@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="D3 · MVP V1 und Build Evidence für den Thor-Hub: Iterationslog, Prompt-, Tool- und Modellentscheidungen, Fehlversuche und nächster Test.">
+<title>Build Evidence (D3) · Thor-Hub</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+<div class="wrap">
+  <nav class="topnav" aria-label="Seiten"><a href="./">Hub</a><a href="evidence.html" aria-current="page">Build Evidence (D3)</a></nav>
+
+  <main id="inhalt" class="doc">
+    <h1>D3 · MVP V1 &amp; Build Evidence</h1>
+    <p class="meta">Teddy Tin Chi Tang (allein) · AI Startup Game, HdM, WiSe 2026/27 · Stand 24.11.2026</p>
+
+    <div class="toc">
+      <strong>Auf dieser Seite</strong>
+      <ol>
+        <li><a href="#mvp">Das MVP V1</a></li>
+        <li><a href="#stand">Fertig-Kriterien und Prüfstand</a></li>
+        <li><a href="#log">Iterationslog</a></li>
+        <li><a href="#prompts">Prompts</a></li>
+        <li><a href="#tools">Tool- und Modellentscheidungen</a></li>
+        <li><a href="#fehl">Fehlversuche und was daraus folgte</a></li>
+        <li><a href="#test">Nächster Test</a></li>
+      </ol>
+    </div>
+
+    <h2 id="mvp">1 · Das MVP V1</h2>
+    <p>Der Thor-Hub sammelt Dual-Screen-Mods und Recomps für den AYN Thor an einem Ort. Zu jedem Mod gibt es einen Steckbrief. Er sagt, was man zum Installieren braucht, ob der Mod etwas kostet, ob der Code offen ist und welche Fehler schon bekannt sind. Das Problem dahinter kommt aus D1: Viele Thor-Besitzer finden Mods eher zufällig auf TikTok oder Reddit und scheitern dann an der Installation.</p>
+    <p>In V1 stecken fünf Mods: Dusklight (Twilight Princess), Pokémon Emerald, The Minish Cap, Call of Duty: Black Ops II (T6 Requiem) und Stardew Valley. Mehr sollten es für die erste Version nicht werden, weil ich allein arbeite.</p>
+    <p>Die Seite <a href="./">Hub</a> ist die demonstrierbare Version. Man kann dort suchen (auch mit Tippfehlern), einen Steckbrief öffnen, die Voraussetzungen abhaken und über den Button zur Originalquelle gehen. Die Quellen stehen bei jedem bekannten Fehler dabei.</p>
+    <div class="callout">
+      <p style="margin:0">Den Installationshelfer gibt es in zwei Fassungen. In der öffentlichen Version hier auf GitHub Pages ist er aus, weil die Funktion, mit der er Claude fragt, nur in einer Claude-Artifact-Seite läuft. Dort habe ich eine Testversion mit Helfer. Warum das so ist, steht unter <a href="#fehl">Fehlversuche</a>.</p>
+    </div>
+    <p>Was V1 bewusst nicht kann: Nutzerkonten, Kommentare, Dateien hosten, neue Mods automatisch finden. Das steht so im Backlog vom 17.11.</p>
+
+    <h2 id="stand">2 · Fertig-Kriterien und Prüfstand</h2>
+    <p>Die Kriterien habe ich am 17.11. mit dem App-Planer festgelegt. Ehrlich gesagt ist noch keines vollständig geprüft. Bisher hat nur Claude selbst Vortests gemacht.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Kriterium</th><th>Stand am 24.11.</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Alle 5 Steckbriefe vollständig und gegen die Originalquelle geprüft</td><td><span class="badge warn">offen</span> Entwürfe stehen. Claude hat sie aus READMEs und GitHub-Issues zusammengefasst, meine Prüfung fehlt noch. Jeder Steckbrief ist auf der Seite als „Entwurf · ungeprüft“ markiert.</td></tr>
+        <tr><td>2</td><td>Falsche Schreibweisen führen zum richtigen Steckbrief</td><td><span class="badge ok">Vortest 14/14</span> Claude hat 14 Suchfälle automatisiert getestet (<code>tests/search.test.js</code>). Mein eigener Test mit 5 Schreibweisen steht noch aus.</td></tr>
+        <tr><td>3</td><td>Helfer: mind. 8 von 10 Fehlerfällen richtig, bei Unbekanntem „unbekannt“, keine schädliche Anweisung</td><td><span class="badge warn">offen</span> Der Helfer ist gebaut, aber noch nie mit echten Fällen geprüft. Das ist der <a href="#test">nächste Test</a>.</td></tr>
+        <tr><td>4</td><td>Eine Testperson mit Thor findet die Voraussetzungen ohne Hilfe</td><td><span class="badge warn">offen</span> Testperson noch nicht angefragt.</td></tr>
+        <tr><td>5</td><td>Jeder Download-Weg führt zur Originalquelle, keine Dateien im Hub</td><td><span class="badge warn">teilweise</span> So gebaut, der Hub hat keine eigenen Downloads. Den Linkcheck habe ich noch nicht gemacht.</td></tr>
+        <tr><td>6</td><td>Auf dem Thor gut bedienbar</td><td><span class="badge warn">offen</span> Bisher nur in Handybreite (412 px) im Testbrowser angesehen, noch nicht auf dem Gerät.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="log">3 · Iterationslog</h2>
+    <p>Alles, was hier steht, ist so passiert. Gebaut hat Claude (Opus 5.5) in der Claude-App, im Projekt „AI Startup Game“. Ich habe Vorschläge geprüft, korrigiert und entschieden.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Datum</th><th>Schritt</th><th>Ergebnis</th></tr></thead>
+      <tbody>
+        <tr><td>26.10.</td><td>D1 Problem Survey</td><td>Entscheidung „weiter prüfen“. Das Problem wurde um Version und Vertrauen geschärft.</td></tr>
+        <tr><td>17.11.</td><td>D2 Lösungsplan abgegeben</td><td>Form Web-App, Angebot Steckbriefe plus KI-Helfer, 5 Mods im MVP.</td></tr>
+        <tr><td>17.11.</td><td>App-Planer mit D2 als Grundlage</td><td>Claude schlug Kern, Grenzen und 6 Fertig-Kriterien vor, dazu Plan B (Hub ohne Helfer, falls der Helfer nicht trägt). Ich habe bestätigt. Danach kamen Nutzerweg, Ansichten, Bauweg und Backlog mit Aufgaben K1 bis R1. Auch das habe ich bestätigt.</td></tr>
+        <tr><td>17.11.</td><td>Quellen nachgereicht</td><td>Ich habe die fünf Originalquellen geschickt. Claude hat sie gelesen. Black Ops II habe ich als Recomp eingeordnet, für Dusklight den richtigen Dual-Screen-Fork verlinkt. Die Steckbrief-Vorlage bekam deshalb ein Feld „Typ“ und die Plattform-App unter „Du brauchst“.</td></tr>
+        <tr><td>17.11.</td><td>K1: Testseite für den Helfer</td><td>Claude hat eine Mini-Seite mit einem Minish-Cap-Steckbrief und zwei Testfragen als Artifact veröffentlicht. Ich habe „Du brauchst“ gekürzt (siehe Fehlversuche). Der eigentliche Test steht noch aus.</td></tr>
+        <tr><td>24.11.</td><td>Standabgleich</td><td>Laut Plan sollten die Inhalte schon fertig sein. Das MVP-Datum 01.12. ist knapp.</td></tr>
+        <tr><td>24.11.</td><td>MVP gebaut</td><td>Claude hat die Pokémon-README und die Issues von Minish Cap und Dusklight gelesen und daraus 5 Steckbrief-Entwürfe geschrieben. Danach hat es die Suche als eigenes Modul gebaut, die Oberfläche und den Helfer mit Plan B. Veröffentlicht als Artifact mit Helfer.</td></tr>
+        <tr><td>24.11.</td><td>Vortests</td><td>Suchtest: erster Lauf 13 von 14, der Fehler lag im Test (siehe Fehlversuche), danach 14 von 14. Render-Check in Chromium bei 412 px Breite: keine Konsolenfehler, Plan B greift. Zwei Bedienprobleme gefunden und behoben.</td></tr>
+        <tr><td>24.11.</td><td>Diese GitHub-Pages-Version</td><td>Navigation und diese Seite ergänzt, Helfer auf GitHub Pages abgeschaltet, Texte gegen typische KI-Formulierungen überarbeitet. Das Repo habe ich selbst angelegt, weil Claude auf meinem Konto keins erstellen kann. Auch das Hochladen ging zuerst nicht, weil die Claude-GitHub-App auf meinem Konto fehlte.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="prompts">4 · Prompts</h2>
+    <h3>Meine Prompts an Claude</h3>
+    <p>Ich habe mit wenigen, kurzen Prompts gearbeitet. Die Führung kam aus dem Skill „app-planer“ aus dem Kurs, der an zwei Stellen meine Zustimmung verlangt.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Wann</th><th>Prompt (wörtlich)</th><th>Was dabei herauskam</th></tr></thead>
+      <tbody>
+        <tr><td>17.11.</td><td><code>/app-planer nutze meine d2 dafür</code> (mit dem D2-PDF)</td><td>Kern, Kriterien, Journey und Backlog</td></tr>
+        <tr><td>17.11.</td><td><code>kannst du für mich die k1 ausfüllen?</code></td><td>Versuch über den eingebauten Browser, scheiterte an der Anmeldung</td></tr>
+        <tr><td>24.11.</td><td><code>kannst du den mvp nun erstellen und nach best practice bauen?</code></td><td>MVP mit Daten, Suche, Helfer und Tests</td></tr>
+        <tr><td>24.11.</td><td><code>kannst du eine github site bauen … und es nach best practice entkifiziieren</code></td><td>Diese Seite</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Der Prompt des Installationshelfers</h3>
+    <p>Der Helfer bekommt bei jeder Frage diesen Text. Darunter hängen der aktuelle Steckbrief als JSON und die Frage.</p>
+<pre>Du bist der Installationshelfer des Thor-Hub. Antworte auf Deutsch, kurz und freundlich, per Du.
+REGELN:
+- Nutze AUSSCHLIESSLICH das WISSEN unten. Kein Allgemeinwissen, keine Vermutungen, keine anderen Mods.
+- Passt die Frage eindeutig zu einem bekannten Fehler mit Lösung: art="loesung", verweis=dessen id,
+  schritte=die Lösungsschritte dieses Eintrags.
+- Passt sie zu einem bekannten Fehler mit status "offen": art="offen", verweis=dessen id,
+  erkläre, dass es noch keine Lösung gibt.
+- Passt sie zu einer Voraussetzung aus du_brauchst, die offenbar fehlt: art="loesung", verweis=null,
+  schritte nennen die fehlende Voraussetzung.
+- Fehlt eine Angabe, um zwischen Einträgen zu unterscheiden: art="rueckfrage" mit genau einer kurzen Frage.
+- Sonst: art="unbekannt". Erfinde nichts.
+- Empfiehl nie Downloads außerhalb der Originalquelle, nie das Löschen von Spielständen
+  und nie das dauerhafte Abschalten von Sicherheitsfunktionen.
+Antworte NUR mit JSON: {"art":..., "verweis":..., "text":..., "schritte":[...], "frage":...}</pre>
+    <p>Warum er so aussieht:</p>
+    <ul>
+      <li>Das Wissen ist auf den Steckbrief begrenzt. Falsche Antworten waren in D2 meine größte Sorge, und so kann der Helfer nur wiedergeben, was im Steckbrief steht.</li>
+      <li>Die Antwort kommt als JSON. Die Seite baut daraus die Anzeige und setzt den Text nie als HTML ein. Verlinkt wird ein Fehlereintrag nur, wenn es die genannte ID im Steckbrief wirklich gibt.</li>
+      <li>Es gibt vier Antwortarten. „Offen“ kam dazu, weil viele echte Fehler bei Minish Cap ein Issue haben, aber noch keine Lösung. Der Helfer soll das sagen können, ohne etwas zu erfinden.</li>
+      <li>Die Sicherheitsregel steht drin, weil meine Schwelle aus D2 „keine schädliche Anweisung“ verlangt.</li>
+    </ul>
+
+    <h2 id="tools">5 · Tool- und Modellentscheidungen</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Aufgabe</th><th>Tool / Modell</th><th>Warum</th><th>Grenze</th></tr></thead>
+      <tbody>
+        <tr><td>Planen und Code schreiben</td><td>Claude Opus 5.5 in der Claude-App, Skill „app-planer“</td><td>Ich habe Claude Pro. Der Skill kommt aus dem Kurs und lässt mich an zwei Prüfpunkten entscheiden.</td><td>Code und Texte sind KI-generiert, ich muss sie prüfen.</td></tr>
+        <tr><td>Steckbrief-Entwürfe</td><td>Claude liest READMEs und GitHub-Issues über den Webabruf</td><td>Die Threads sind lang und auf Englisch, das Zusammenfassen spart viel Zeit.</td><td>GitHub hat einmal wegen zu vieler Abrufe blockiert. Discord-Inhalte sind nicht abrufbar.</td></tr>
+        <tr><td>Installationshelfer</td><td>Claude über die Artifact-Funktion „Claude fragen“, Stufe „quick“</td><td>Ich brauche keinen API-Schlüssel und habe kein Budget. Für kurze Antworten aus einem Steckbrief reicht die schnelle Stufe.</td><td>Läuft nur in einer Claude-Artifact-Seite. Ob Leute ohne mein Konto ihn nutzen können, ist ungeklärt.</td></tr>
+        <tr><td>Suche</td><td>Eigene Regeln ohne KI (Tippfehler-Abstand und Zeichen-Trigramme)</td><td>Kostet nichts, ist schnell und lässt sich mit festen Fällen testen.</td><td>Findet nur Namen und Varianten, die im Steckbrief stehen.</td></tr>
+        <tr><td>Öffentliche Version</td><td>GitHub Pages</td><td>Kostenlos, ohne Server, und jeder kann den Link öffnen.</td><td>Nur statische Dateien, deshalb kein Helfer.</td></tr>
+        <tr><td>Prüfen</td><td>Node.js für die Suchtests, Playwright mit Chromium für den Render-Check</td><td>Wiederholbar. Die Tests liegen im Repo unter <code>tests/</code>.</td><td>Ersetzt nicht den Test auf dem Thor und mit echten Nutzern.</td></tr>
+        <tr><td>Nicht genutzt</td><td>Lokales Modell auf meiner RTX 3070, bezahlte API, Render</td><td>Lokal läuft das Modell nur, wenn mein PC an ist. Für die API fehlt das Budget. Render brauche ich nicht, solange die Seite statisch ist.</td><td>Für einen öffentlichen Helfer muss ich später eine dieser Lösungen wählen oder beim Plan B bleiben.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="fehl">6 · Fehlversuche und was daraus folgte</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Was passiert ist</th><th>Entscheidung</th></tr></thead>
+      <tbody>
+        <tr><td>In D2 hatte ich die automatische Suche nach neuen Mods kurz ins MVP genommen. Allein ist das viel zu viel Aufwand, und die Einträge wären ungeprüft gewesen.</td><td>Wieder raus. Kommt später, zum Beispiel per GitHub-Pipeline.</td></tr>
+        <tr><td>Auf der offiziellen Dusklight-Seite stand nichts von Dual Screen auf dem Thor.</td><td>Ich habe den Fork mit Dual-Screen-Unterstützung nachgereicht. Der Steckbrief verweist jetzt auf den Fork und nennt das Original als weitere Quelle.</td></tr>
+        <tr><td>Claude schrieb, bei Black Ops II sei kein Dual Screen belegt.</td><td>Es ist ein Recomp und braucht keinen. Die Vorlage hat jetzt das Feld „Typ“ mit Dual-Screen-Mod oder Recomp.</td></tr>
+        <tr><td>Beim Stardew-Mod bin ich mir nicht sicher, ob es derselbe ist wie im TikTok-Video aus D1. Das Repo hat einen Stern und nennt keine bekannten Fehler.</td><td>Bleibt drin, mit Prüfnotiz im Steckbrief. Abgleich mit dem Video steht aus.</td></tr>
+        <tr><td>Die erste Fassung von „Du brauchst“ bei Minish Cap war zu technisch, mit SHA-1-Prüfsumme und Ordnerpfad.</td><td>Gekürzt auf Gerät, eigene ROM und APK. Der Pfad steht nur noch beim Fehler „App findet die ROM nicht“. Als Gerät gilt jetzt auch das Retroid Pocket Duo.</td></tr>
+        <tr><td>Claude sollte K1 über den eingebauten Browser der Desktop-App testen. Dort war ich nicht angemeldet, und mein Passwort darf Claude nicht eingeben.</td><td>Der Test bleibt meine Aufgabe. Er gehört jetzt zum nächsten Test.</td></tr>
+        <tr><td>Beim Lesen der Quellen hat GitHub einen Abruf wegen zu vieler Anfragen blockiert, die Pokémon-Seite fehlte deshalb zuerst.</td><td>Abrufe nacheinander statt gleichzeitig. Die Seite ist inzwischen gelesen.</td></tr>
+        <tr><td>Im ersten Suchtest schlug „twilight princes“ fehl. Erwartet war ein „Meintest du“, die Suche fand aber direkt Dusklight, weil „princes“ der Anfang von „Princess“ ist.</td><td>Das Verhalten ist richtig, der Test war falsch. Test angepasst und einen echten Tippfehlerfall ergänzt.</td></tr>
+        <tr><td>Im Render-Check stand der Helfer bei Minish Cap erst nach sieben Fehlereinträgen. Außerdem hatte die Überschrift beim Laden einen Fokusrahmen.</td><td>Helfer steht jetzt vor „Bekannte Fehler“, der Fokus springt nur beim Wechsel der Ansicht.</td></tr>
+        <tr><td>„Claude fragen“ gibt es nur in Claude-Artifact-Seiten. Auf GitHub Pages bräuchte der Helfer eine bezahlte API oder einen eigenen Server.</td><td>Öffentliche Version ohne Helfer (Plan B aus dem Backlog), Testversion mit Helfer als Artifact. Die Seite erkennt GitHub Pages und zeigt dann gleich den Hinweis auf die bekannten Fehler.</td></tr>
+        <tr><td>Claude konnte auf meinem GitHub-Konto kein Repository anlegen und anfangs auch nichts hochladen, weil die Claude-GitHub-App dort nicht installiert war.</td><td>Ich habe das leere Repo selbst erstellt. Claude hat die Dateien fertig vorbereitet, hochgeladen wurden sie danach von mir bzw. nach Freigabe der App.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="test">7 · Nächster Test</h2>
+    <p>Der nächste Test ist der Helfer-Funktionscheck (P1 im Backlog). Er prüft meine größte Unsicherheit aus D2: ob der Helfer richtig antwortet.</p>
+    <h3>Ablauf</h3>
+    <ol>
+      <li>Ich schreibe 10 echte Fehlerfälle mit erwarteter Antwort auf. Ein Teil davon steht absichtlich nicht im Steckbrief, damit sich „unbekannt“ prüfen lässt. Minish Cap eignet sich am besten, weil es dort die meisten echten Issues gibt.</li>
+      <li>Ich gebe die Fälle in der Artifact-Version in den Helfer ein und notiere jede Antwort.</li>
+      <li>Danach öffnet eine zweite Person ohne mein Konto den Link. Sie stellt eine der Fragen. So kläre ich K1 gleich mit.</li>
+    </ol>
+    <h3>Woran ich das Ergebnis messe</h3>
+    <p>Mindestens 8 von 10 richtig und keine schädliche Anweisung: Der Helfer bleibt, und ich suche einen Weg, ihn öffentlich anzubieten. Unter 6 von 10 oder eine schwer falsche Anweisung: Er fliegt raus, und die öffentliche Version bleibt so, wie sie hier ist. Dazwischen gibt es eine Korrekturrunde am Prompt und dann einen zweiten Durchlauf.</p>
+    <p>Danach folgt der Test mit einer Testperson auf dem Thor (Kriterium 4). Dafür reicht diese GitHub-Pages-Version.</p>
+  </main>
+
+  <footer>Code, Daten und Tests: <a href="https://github.com/teddytang0206/thor-hub">github.com/teddytang0206/thor-hub</a>. Diese Seite ändert sich, wenn neue Tests dazukommen.</footer>
+</div>
+</body>
+</html>

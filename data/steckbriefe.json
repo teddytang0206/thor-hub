@@ -1,0 +1,250 @@
+[
+  {
+    "id": "dusklight",
+    "spiel": "The Legend of Zelda: Twilight Princess",
+    "mod_name": "Dusklight – Dual-Screen-Fork",
+    "typ": "Dual-Screen-Mod",
+    "namensvarianten": ["Dusklight", "Dusk", "Twilight Princess", "Zelda Twilight Princess", "Zelda TP", "TP Dual Screen", "Dusklight Dual"],
+    "kurz": "Nachgebaute PC/Mobile-Version von Twilight Princess; dieser Fork ergänzt Android und den zweiten Bildschirm.",
+    "du_brauchst": [
+      "AYN Thor oder ein anderes Dual-Screen-Gerät",
+      "Eigenen Dump deines Spiels (alle Retail-Discs außer der koreanischen Wii-Version)",
+      "APK aus den Releases des Forks"
+    ],
+    "kosten": "keine Bezahlung erwähnt",
+    "open_source": "ja",
+    "lizenz": "CC0-1.0",
+    "originalquelle": "https://github.com/igawa6/dusklight",
+    "entwickler_thread": "https://github.com/igawa6/dusklight/issues",
+    "weitere_quellen": [
+      {"titel": "Upstream-Projekt (TwilitRealm)", "url": "https://github.com/TwilitRealm/dusklight"},
+      {"titel": "Offizielle Seite", "url": "https://twilitrealm.dev/"}
+    ],
+    "bekannte_fehler": [
+      {
+        "id": "D1",
+        "symptom": "Die APK lässt sich nicht installieren, wenn das Original-Dusklight schon installiert ist.",
+        "ursache": "Fork und Original sind mit verschiedenen Schlüsseln signiert.",
+        "loesung": [
+          "Im Original-Dusklight: Settings → Prelaunch → Data Folder → Change Data Folder und einen Ordner im gemeinsamen Speicher wählen.",
+          "Prüfen, dass die Dateien dort liegen.",
+          "Original deinstallieren, den Fork installieren und denselben Ordner auswählen."
+        ],
+        "status": "Lösung bekannt",
+        "quelle": "README des Forks",
+        "quelle_url": "https://github.com/igawa6/dusklight"
+      },
+      {
+        "id": "D2",
+        "symptom": "Mit einer Wii-Disc erscheint die GameCube-Oberfläche (HUD).",
+        "ursache": "Die zugrunde liegende Decompilation entspricht nur der GameCube-Version.",
+        "loesung": ["Erwartetes Verhalten laut README, keine Lösung vorgesehen."],
+        "status": "Einschränkung",
+        "quelle": "README des Forks",
+        "quelle_url": "https://github.com/igawa6/dusklight"
+      },
+      {
+        "id": "D3",
+        "symptom": "Eigene Texturen verschwinden, nachdem der Thor gesperrt wurde.",
+        "ursache": "Unbekannt.",
+        "loesung": ["Noch keine Lösung veröffentlicht. Issue #9 verfolgen."],
+        "status": "offen",
+        "quelle": "GitHub-Issue #9",
+        "quelle_url": "https://github.com/igawa6/dusklight/issues/9"
+      }
+    ],
+    "pruefdatum": null,
+    "entwurf_vom": "2026-11-24"
+  },
+  {
+    "id": "pokemon-emerald",
+    "spiel": "Pokémon Emerald",
+    "mod_name": "pokeemerald-dualscreen",
+    "typ": "Dual-Screen-Mod",
+    "namensvarianten": ["Pokemon Emerald", "Pokémon Smaragd", "Smaragd", "Emerald", "pokeemerald", "Emerald Dual Screen", "Pokemon Emerald Dual"],
+    "kurz": "Läuft nativ ohne Emulator, auf Basis der Pokémon-Emerald-Decompilation.",
+    "du_brauchst": [
+      "AYN Thor oder ein anderes Dual-Screen-Android-Gerät",
+      "Eigene Pokémon-Emerald-ROM (USA oder Europa), keine ROM-Hacks",
+      "APK aus dem neuesten Release",
+      "Optional: Spielstand als 128-KB-Flash-Save (.sav oder .srm)"
+    ],
+    "kosten": "keine Bezahlung erwähnt",
+    "open_source": "ja",
+    "lizenz": "Lizenzdatei vorhanden, Lizenz noch nicht geprüft",
+    "originalquelle": "https://github.com/Goldoire/pokeemerald-dualscreen",
+    "entwickler_thread": "https://github.com/Goldoire/pokeemerald-dualscreen",
+    "weitere_quellen": [
+      {"titel": "Neuestes Release", "url": "https://github.com/Goldoire/pokeemerald-dualscreen/releases/latest"}
+    ],
+    "bekannte_fehler": [
+      {
+        "id": "P1",
+        "symptom": "Eine ROM-Hack-Version startet nicht oder wird nicht angenommen.",
+        "ursache": "ROM-Hacks werden nicht unterstützt.",
+        "loesung": ["Eine unveränderte Pokémon-Emerald-ROM (USA oder Europa) auswählen."],
+        "status": "Lösung bekannt",
+        "quelle": "README",
+        "quelle_url": "https://github.com/Goldoire/pokeemerald-dualscreen"
+      },
+      {
+        "id": "P2",
+        "symptom": "Ein mitgebrachter Spielstand lässt sich nicht importieren.",
+        "ursache": "Unterstützt werden nur 128-KB-Flash-Saves (.sav/.srm), keine Savestates oder anderen Formate.",
+        "loesung": ["Den Spielstand als .sav oder .srm (Flash, 128 KB) exportieren.", "Der Anleitung INSTALLATION.md im Repository folgen."],
+        "status": "Lösung bekannt",
+        "quelle": "README",
+        "quelle_url": "https://github.com/Goldoire/pokeemerald-dualscreen"
+      }
+    ],
+    "pruefdatum": null,
+    "entwurf_vom": "2026-11-24"
+  },
+  {
+    "id": "minish-cap",
+    "spiel": "The Legend of Zelda: The Minish Cap",
+    "mod_name": "tmc-android – Dual Screen",
+    "typ": "Dual-Screen-Mod",
+    "namensvarianten": ["Minish Cap", "The Minish Cap", "Zelda Minish Cap", "TMC", "Minishcap", "Minish Cap Dual Screen", "Zelda Minish"],
+    "kurz": "Native Android-Version; unten Karte, Quest-Status und Touch-Inventar, oben das Spiel.",
+    "du_brauchst": [
+      "AYN Thor oder ein anderes Dual-Screen-Gerät (z. B. Retroid Pocket Duo)",
+      "Eigene ROM (baserom.gba)",
+      "APK aus den GitHub-Releases"
+    ],
+    "kosten": "keine Bezahlung erwähnt",
+    "open_source": "ja",
+    "lizenz": "GPL-3.0",
+    "originalquelle": "https://github.com/samyost1/tmc-android",
+    "entwickler_thread": "https://github.com/samyost1/tmc-android/issues",
+    "weitere_quellen": [],
+    "bekannte_fehler": [
+      {
+        "id": "M1",
+        "symptom": "Mit einer EU- oder JP-ROM fehlen Texte, Bildschirme bleiben leer oder Inhalte stimmen nicht.",
+        "ursache": "Die Standard-APK ist für die USA-ROM gebaut; mit anderen Regionen entsteht eine Mischversion.",
+        "loesung": ["Eine USA-ROM (baserom.gba) verwenden.", "Für eine saubere EU-Version die EU-APK selbst bauen (siehe README)."],
+        "status": "Lösung bekannt",
+        "quelle": "README und Issues #8, #12, #22",
+        "quelle_url": "https://github.com/samyost1/tmc-android/issues/8"
+      },
+      {
+        "id": "M2",
+        "symptom": "Android warnt bei der Installation vor einem unbekannten Entwickler.",
+        "ursache": "Die APK ist mit einem Debug-Schlüssel signiert.",
+        "loesung": ["Die Warnung ist bei dieser APK erwartet.", "Nur die APK aus den GitHub-Releases der Originalquelle verwenden."],
+        "status": "Lösung bekannt",
+        "quelle": "README",
+        "quelle_url": "https://github.com/samyost1/tmc-android"
+      },
+      {
+        "id": "M3",
+        "symptom": "Ein Spielstand aus mGBA lädt nur das Inventar, nicht Story-Fortschritt oder Position.",
+        "ursache": "Unbekannt.",
+        "loesung": ["Noch keine Lösung veröffentlicht. Issue #11 verfolgen."],
+        "status": "offen",
+        "quelle": "GitHub-Issue #11",
+        "quelle_url": "https://github.com/samyost1/tmc-android/issues/11"
+      },
+      {
+        "id": "M4",
+        "symptom": "Automatisches Speichern funktioniert nicht.",
+        "ursache": "Unbekannt.",
+        "loesung": ["Noch keine Lösung veröffentlicht. Issue #20 verfolgen."],
+        "status": "offen",
+        "quelle": "GitHub-Issue #20",
+        "quelle_url": "https://github.com/samyost1/tmc-android/issues/20"
+      },
+      {
+        "id": "M5",
+        "symptom": "Im ersten Tempel bleibt das Spiel beim Seerosen-Übergang in den nächsten Raum hängen.",
+        "ursache": "Unbekannt.",
+        "loesung": ["Noch keine Lösung veröffentlicht. Issue #19 verfolgen."],
+        "status": "offen",
+        "quelle": "GitHub-Issue #19",
+        "quelle_url": "https://github.com/samyost1/tmc-android/issues/19"
+      },
+      {
+        "id": "M6",
+        "symptom": "Seitenleiste oder Breitbildmodus werden fehlerhaft dargestellt.",
+        "ursache": "Unbekannt.",
+        "loesung": ["Noch keine Lösung veröffentlicht. Issues #27 und #28 verfolgen."],
+        "status": "offen",
+        "quelle": "GitHub-Issues #27, #28",
+        "quelle_url": "https://github.com/samyost1/tmc-android/issues/28"
+      },
+      {
+        "id": "M7",
+        "symptom": "Im Hochformat ist kein Schalter für den zweiten Bildschirm zu finden.",
+        "ursache": "Unbekannt.",
+        "loesung": ["Noch keine Lösung veröffentlicht. Issue #21 verfolgen."],
+        "status": "offen",
+        "quelle": "GitHub-Issue #21",
+        "quelle_url": "https://github.com/samyost1/tmc-android/issues/21"
+      }
+    ],
+    "pruefdatum": null,
+    "entwurf_vom": "2026-11-24"
+  },
+  {
+    "id": "black-ops-2",
+    "spiel": "Call of Duty: Black Ops II",
+    "mod_name": "T6 Requiem",
+    "typ": "Recomp",
+    "namensvarianten": ["Black Ops 2", "Black Ops II", "BO2", "COD BO2", "Call of Duty Black Ops", "T6", "T6 Requiem", "Requiem"],
+    "kurz": "Inoffizielle native Android-Version mit Zombies und Multiplayer, Touch- und Controller-Steuerung.",
+    "du_brauchst": [
+      "64-Bit-ARM-Android-Gerät mit Vulkan (empfohlen mindestens Snapdragon 765, Adreno 620, 6 GB RAM)",
+      "Steam-Version von Black Ops II inklusive Zombies- und Multiplayer-Dateien",
+      "APK aus den Releases; der Launcher richtet die Spieldateien ein"
+    ],
+    "kosten": "keine Bezahlung erwähnt",
+    "open_source": "unklar",
+    "lizenz": "nicht angegeben",
+    "originalquelle": "https://github.com/SoldadoGhost/T6Requiem-APK",
+    "entwickler_thread": "https://github.com/SoldadoGhost/T6Requiem-APK",
+    "weitere_quellen": [],
+    "bekannte_fehler": [
+      {
+        "id": "B1",
+        "symptom": "Das Spiel stürzt ab oder verhält sich fehlerhaft.",
+        "ursache": "Laut Projekt sind Fehler möglich; Meldungen laufen über den Discord-Server.",
+        "loesung": [
+          "Im T6-Requiem-Discord melden (Link im Repository).",
+          "Gerätemodell, Android-Version und eine Beschreibung angeben.",
+          "Falls vorhanden die Datei BO2/t6requiem_log.txt anhängen."
+        ],
+        "status": "Hinweis",
+        "quelle": "README",
+        "quelle_url": "https://github.com/SoldadoGhost/T6Requiem-APK"
+      }
+    ],
+    "pruefdatum": null,
+    "entwurf_vom": "2026-11-24"
+  },
+  {
+    "id": "stardew-valley",
+    "spiel": "Stardew Valley",
+    "mod_name": "ThorDualScreen (SMAPI-Mod)",
+    "typ": "Dual-Screen-Mod",
+    "namensvarianten": ["Stardew", "Stardew Valley", "SDV", "Stardew Dual", "Stardew Dual Screen", "ThorDualScreen", "Thor Dual Screen"],
+    "kurz": "SMAPI-Mod, der den zweiten Bildschirm des Thor zum Touch-Begleiter für Stardew Valley in Cinderbox macht.",
+    "du_brauchst": [
+      "AYN Thor",
+      "Cinderbox mit SMAPI",
+      "Eigene Kopie von Stardew Valley (Steam oder GOG)",
+      "Ordner ThorDualScreen aus den Releases, kopiert nach /sdcard/StardewValley/desktop/Mods/ThorDualScreen/",
+      "Vorher: Spielstände sichern"
+    ],
+    "kosten": "kostenlos",
+    "open_source": "ja",
+    "lizenz": "GPL-3.0",
+    "originalquelle": "https://github.com/hung-eggie-do-covergo/stardew-thor-dual-screen",
+    "entwickler_thread": "https://github.com/hung-eggie-do-covergo/stardew-thor-dual-screen/issues",
+    "weitere_quellen": [],
+    "bekannte_fehler": [],
+    "pruefnotiz": "Zuordnung unsicher: mit dem TikTok-Video aus Signal 09 abgleichen.",
+    "pruefdatum": null,
+    "entwurf_vom": "2026-11-24"
+  }
+]
