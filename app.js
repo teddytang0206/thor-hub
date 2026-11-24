@@ -69,7 +69,7 @@
     input.addEventListener("input", update);
 
     main.replaceChildren(
-      h("div", { class: "brand" }, h("h1", { tabindex: "-1" }, "Thor-Hub"), h("span", { class: "tag" }, "Dual-Screen-Mods und Recomps für den AYN Thor")),
+      h("div", { class: "brand" }, h("img", { class: "logo", src: "logo.svg", alt: "", width: "44", height: "44" }), h("h1", { tabindex: "-1" }, "Thor-Hub"), h("span", { class: "tag" }, "Dual-Screen-Mods und Recomps für den AYN Thor")),
       h("p", { class: "lead" }, "Für jeden Mod steht hier, was du zum Installieren brauchst, ob er etwas kostet und ob der Code offen liegt. Wenn er nicht startet, schau in die Liste der bekannten Fehler."),
       h("div", { class: "search", role: "search" }, h("label", { for: "q" }, "Spiel suchen"), input),
       status, grid
@@ -174,7 +174,7 @@
       if (state.abort) state.abort.abort();
       const ac = new AbortController(); state.abort = ac;
       btn.disabled = true;
-      out.replaceChildren(answerBox("", "Helfer sucht im Steckbrief", [h("p", { class: "dots" }, "Einen Moment")]));
+      out.replaceChildren(answerBox("", "Helfer sucht im Steckbrief", [h("p", { class: "dots" }, "Moment, ich schaue nach")]));
       try {
         const res = await state.sample(buildPrompt(e, q), { modelTier: "quick", signal: ac.signal });
         out.replaceChildren(renderAnswer(e, parseAnswer(res.text)));
