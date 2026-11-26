@@ -1,6 +1,6 @@
 /* Thor-Hub · Version 1 (MVP)
- * Ansichten: Übersicht (#) und Steckbrief (#<id>).
- * Daten: data/steckbriefe.json (von Hand gepflegt).
+ * Ansichten: Übersicht (#) und Steckbrief (#<id>), Sprache DE/EN.
+ * Daten: data/steckbriefe.json (von Hand gepflegt, Texte als {de, en}).
  * Helfer: Artifact-Fähigkeit „sample“ (Claude fragen); fehlt sie, greift Plan B.
  */
 (function () {
@@ -8,7 +8,106 @@
 
   const main = document.getElementById("main");
   const ON_PAGES = /\.github\.io$/.test(location.hostname);
-  const state = { entries: [], byId: new Map(), query: "", checks: new Map(), sample: undefined, abort: null };
+  const LANG_KEY = "thorhub-lang";
+  const state = { entries: [], byId: new Map(), query: "", checks: new Map(), sample: undefined, abort: null, lang: initialLang() };
+
+  /* ---------- Sprache ---------- */
+  const I18N = {
+    de: {
+      tagline: "Dual-Screen-Mods und Recomps für den AYN Thor",
+      lead: "Für jeden Mod steht hier, was du zum Installieren brauchst, ob er etwas kostet und ob der Code offen liegt. Wenn er nicht startet, schau in die Liste der bekannten Fehler.",
+      searchLabel: "Spiel suchen", searchPh: "z. B. Minish Cap, Stardew, BO2",
+      countAll: n => `${n} Mods und Recomps`, countHits: n => n === 1 ? "1 Treffer" : `${n} Treffer`,
+      didYouMean: "Kein genauer Treffer. Meintest du ", none: "Noch nicht im Hub. Prüf die Schreibweise oder schau später wieder vorbei.",
+      gridLabel: "Mods und Recomps", chipsLabel: "Kennzeichen",
+      type: { "dual-screen-mod": "Dual-Screen-Mod", recomp: "Recomp" },
+      cost: { free: "kostenlos", patreon: "Patreon", none_mentioned: "keine Bezahlung erwähnt" },
+      os: { yes: "Open Source", unclear: "Open Source: unklar", no: "kein Open Source" },
+      checked: d => "geprüft am " + d, draftChip: "Entwurf · ungeprüft",
+      back: "← Alle Mods",
+      draftNotice: d => `Entwurf vom ${d}: aus der Originalquelle zusammengefasst, noch nicht geprüft. Im Zweifel gilt die Originalquelle.`,
+      checkNote: "Prüfnotiz: ",
+      needs: "Du brauchst", progress: (a, b) => `${a} von ${b} erledigt`, toSource: "Zur Originalquelle ↗", license: "Lizenz: ",
+      errors: "Bekannte Fehler", noErrors: "Die Quelle nennt bisher keine bekannten Fehler. Nutze den Helfer oder frag im Entwickler-Thread.",
+      cause: "Ursache: ", source: "Quelle: ",
+      status: { solved: "Lösung bekannt", open: "offen", limitation: "Einschränkung", note: "Hinweis" },
+      helper: "Installationshelfer", helperLabel: "Dein Problem",
+      helperPh: "z. B. „Die Texte fehlen, ich nutze eine deutsche ROM.“",
+      helperHint: "Beschreibe Fehlermeldung, Version oder ROM-Region. Der Helfer antwortet nur aus diesem Steckbrief.",
+      ask: "Helfer fragen", thinking: "Helfer sucht im Steckbrief", wait: "Moment, ich schaue nach",
+      offPages: "In dieser öffentlichen Version ist der Helfer noch ausgeschaltet. Er läuft bisher nur in einer Testversion.",
+      offHere: "Der Helfer ist hier gerade nicht verfügbar.", off: "Helfer aus",
+      offBody: ["Schau unten unter „Bekannte Fehler“. Steht dein Problem nicht dabei, frag im ", "Entwickler-Thread", " nach."],
+      empty: "Bitte beschreibe zuerst dein Problem.", hintLabel: "Hinweis",
+      rate: "Gerade zu viele Anfragen. Bitte in einer Minute noch einmal versuchen.", parse: "Die Antwort war unvollständig. Bitte noch einmal fragen.",
+      fail: "Der Helfer konnte nicht antworten.", failTail: " Bis dahin helfen die bekannten Fehler oder der ", errLabel: "Fehler",
+      more: "Mehr dazu: ", knownErr: id => `Bekannter Fehler ${id}`, askThread: ["Frag im ", "Entwickler-Thread", " nach. Dort lesen die Entwickler mit."],
+      kinds: { loesung: "Lösung", offen: "Bekannt, noch ohne Lösung", rueckfrage: "Rückfrage", unbekannt: "Unbekannt" },
+      loadFail: "Die Steckbriefe konnten nicht geladen werden. Bitte Seite neu laden.",
+      navHub: "Hub", navEvidence: "Build Evidence (D3)", skip: "Zum Inhalt springen", langGroup: "Sprache",
+      footer: "Der Thor-Hub stellt keine Dateien bereit. Downloads laufen immer über die Originalquelle. MVP V1 von Teddy Tang, HdM, WiSe 2026/27. Steckbriefe gelten als Entwurf, bis ich sie gegen die Quelle geprüft habe. Die Bilder sind eigene Pixel-Art-Motive, keine Originalgrafiken der Spiele.",
+      answerLang: "Deutsch", du: "per Du"
+    },
+    en: {
+      tagline: "Dual-screen mods and recomps for the AYN Thor",
+      lead: "For every mod you'll find what you need to install it, whether it costs anything and whether the code is open. If it won't start, check the list of known issues.",
+      searchLabel: "Search a game", searchPh: "e.g. Minish Cap, Stardew, BO2",
+      countAll: n => `${n} mods and recomps`, countHits: n => n === 1 ? "1 result" : `${n} results`,
+      didYouMean: "No exact match. Did you mean ", none: "Not in the hub yet. Check the spelling or come back later.",
+      gridLabel: "Mods and recomps", chipsLabel: "Labels",
+      type: { "dual-screen-mod": "Dual-screen mod", recomp: "Recomp" },
+      cost: { free: "free", patreon: "Patreon", none_mentioned: "no payment mentioned" },
+      os: { yes: "Open source", unclear: "Open source: unclear", no: "Not open source" },
+      checked: d => "checked " + d, draftChip: "Draft · unchecked",
+      back: "← All mods",
+      draftNotice: d => `Draft from ${d}: summarised from the original source and not checked yet. If in doubt, the original source wins.`,
+      checkNote: "Note: ",
+      needs: "You need", progress: (a, b) => `${a} of ${b} done`, toSource: "Go to original source ↗", license: "License: ",
+      errors: "Known issues", noErrors: "The source doesn't list any known issues yet. Try the helper or ask in the developer thread.",
+      cause: "Cause: ", source: "Source: ",
+      status: { solved: "fix known", open: "open", limitation: "limitation", note: "note" },
+      helper: "Install helper", helperLabel: "Your problem",
+      helperPh: "e.g. \"Text is missing, I'm using a German ROM.\"",
+      helperHint: "Describe the error message, version or ROM region. The helper only answers from this page.",
+      ask: "Ask the helper", thinking: "Helper is checking this page", wait: "One moment",
+      offPages: "The helper is switched off in this public version. So far it only runs in a test version.",
+      offHere: "The helper isn't available here right now.", off: "Helper off",
+      offBody: ["Check \"Known issues\" below. If your problem isn't there, ask in the ", "developer thread", "."],
+      empty: "Please describe your problem first.", hintLabel: "Note",
+      rate: "Too many requests right now. Please try again in a minute.", parse: "The answer came back incomplete. Please ask again.",
+      fail: "The helper couldn't answer.", failTail: " Until then, the known issues or the ", errLabel: "Error",
+      more: "More: ", knownErr: id => `Known issue ${id}`, askThread: ["Ask in the ", "developer thread", ". The developers read along there."],
+      kinds: { loesung: "Fix", offen: "Known, no fix yet", rueckfrage: "Question", unbekannt: "Unknown" },
+      loadFail: "The mod pages couldn't be loaded. Please reload.",
+      navHub: "Hub", navEvidence: "Build evidence (D3)", skip: "Skip to content", langGroup: "Language",
+      footer: "The Thor-Hub doesn't host any files. Downloads always go through the original source. MVP V1 by Teddy Tang, HdM, winter term 2026/27. Mod pages count as drafts until I've checked them against the source. The images are original pixel art, not artwork from the games.",
+      answerLang: "English", du: "in a casual tone"
+    }
+  };
+  const t = key => I18N[state.lang][key];
+  const tr = v => (v && typeof v === "object" && !Array.isArray(v)) ? (v[state.lang] || v.de || "") : (v == null ? "" : v);
+
+  function initialLang() {
+    try { const s = localStorage.getItem(LANG_KEY); if (s === "de" || s === "en") return s; } catch (_) {}
+    return /^de\b/i.test(navigator.language || "") ? "de" : "en";
+  }
+  function setLang(lang) {
+    if (lang === state.lang) return;
+    state.lang = lang;
+    try { localStorage.setItem(LANG_KEY, lang); } catch (_) {}
+    applyChrome();
+    if (state.entries.length) route();
+  }
+  // Seitenrahmen (Navigation, Fußzeile, Sprachknöpfe) übersetzen
+  function applyChrome() {
+    document.documentElement.lang = state.lang;
+    document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+    const ev = document.querySelector("[data-evidence-link]");
+    if (ev) ev.setAttribute("href", state.lang === "en" ? "evidence.en.html" : "evidence.html");
+    const grp = document.querySelector(".lang");
+    if (grp) grp.setAttribute("aria-label", t("langGroup"));
+    document.querySelectorAll(".lang [data-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === state.lang)));
+  }
 
   /* ---------- kleine DOM-Helfer (kein innerHTML für fremde Texte) ---------- */
   function h(tag, attrs, ...kids) {
@@ -17,61 +116,55 @@
       if (v == null || v === false) continue;
       if (k === "class") el.className = v;
       else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
-      else if (k === "text") el.textContent = v;
       else el.setAttribute(k, v === true ? "" : v);
     }
     for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid.nodeType ? kid : String(kid));
     return el;
   }
   const ext = (href, label, cls) => h("a", { href, target: "_blank", rel: "noopener noreferrer", class: cls }, label);
+  function fmtDate(iso) {
+    const d = new Date(iso + "T12:00:00");
+    return isNaN(d) ? iso : d.toLocaleDateString(state.lang === "en" ? "en-GB" : "de-DE");
+  }
+  const picture = (e, cls) => e.bild ? h("img", { class: cls, src: e.bild, alt: tr(e.bild_alt), width: "320", height: "180", loading: "lazy", decoding: "async" }) : null;
 
   /* ---------- Labels ---------- */
   function chips(e) {
-    const list = h("ul", { class: "chips", "aria-label": "Kennzeichen" });
-    list.append(h("li", { class: "chip type" }, e.typ));
-    const free = e.kosten === "kostenlos";
-    const patreon = /patreon/i.test(e.kosten);
-    list.append(h("li", { class: "chip " + (free ? "ok" : patreon ? "warn" : "") }, free ? "kostenlos" : patreon ? "Patreon" : e.kosten));
-    const os = e.open_source === "ja";
-    list.append(h("li", { class: "chip " + (os ? "ok" : "warn") }, os ? "Open Source" : "Open Source: " + e.open_source));
-    list.append(h("li", { class: "chip " + (e.pruefdatum ? "ok" : "warn") },
-      e.pruefdatum ? "geprüft am " + fmtDate(e.pruefdatum) : "Entwurf · ungeprüft"));
+    const list = h("ul", { class: "chips", "aria-label": t("chipsLabel") });
+    list.append(h("li", { class: "chip type" }, t("type")[e.typ] || e.typ));
+    list.append(h("li", { class: "chip " + (e.kosten === "free" ? "ok" : e.kosten === "patreon" ? "warn" : "") }, t("cost")[e.kosten] || e.kosten));
+    list.append(h("li", { class: "chip " + (e.open_source === "yes" ? "ok" : "warn") }, t("os")[e.open_source] || e.open_source));
+    list.append(h("li", { class: "chip " + (e.pruefdatum ? "ok" : "warn") }, e.pruefdatum ? t("checked")(fmtDate(e.pruefdatum)) : t("draftChip")));
     return list;
-  }
-  function fmtDate(iso) {
-    const d = new Date(iso + "T12:00:00");
-    return isNaN(d) ? iso : d.toLocaleDateString("de-DE");
   }
 
   /* ---------- Übersicht ---------- */
   function renderOverview() {
     document.title = "Thor-Hub";
-    const input = h("input", {
-      id: "q", type: "search", autocomplete: "off", spellcheck: "false",
-      placeholder: "z. B. Minish Cap, Stardew, BO2", value: state.query, "aria-describedby": "status"
-    });
+    const input = h("input", { id: "q", type: "search", autocomplete: "off", spellcheck: "false", placeholder: t("searchPh"), "aria-describedby": "status" });
+    input.value = state.query;
     const status = h("p", { id: "status", class: "status", role: "status", "aria-live": "polite" });
-    const grid = h("ul", { class: "grid", "aria-label": "Mods und Recomps" });
+    const grid = h("ul", { class: "grid", "aria-label": t("gridLabel") });
 
     function update() {
       state.query = input.value;
       const r = window.ThorSearch.search(state.query, state.entries);
       grid.replaceChildren(...r.results.map(tile));
       status.replaceChildren();
-      if (r.mode === "all") status.append(`${r.results.length} Mods und Recomps`);
-      else if (r.mode === "direct") status.append(`${r.results.length} Treffer`);
+      if (r.mode === "all") status.append(t("countAll")(r.results.length));
+      else if (r.mode === "direct") status.append(t("countHits")(r.results.length));
       else if (r.mode === "suggest") {
-        status.append("Kein genauer Treffer. Meintest du ",
-          h("button", { class: "linkish", type: "button", onclick: () => { location.hash = r.suggestion.id; } }, r.suggestion.spiel),
-          "?");
-      } else status.append("Noch nicht im Hub. Prüf die Schreibweise oder schau später wieder vorbei.");
+        status.append(t("didYouMean"),
+          h("button", { class: "linkish", type: "button", onclick: () => { location.hash = r.suggestion.id; } }, r.suggestion.spiel), "?");
+      } else status.append(t("none"));
     }
     input.addEventListener("input", update);
 
     main.replaceChildren(
-      h("div", { class: "brand" }, h("img", { class: "logo", src: "logo.svg", alt: "", width: "44", height: "44" }), h("h1", { tabindex: "-1" }, "Thor-Hub"), h("span", { class: "tag" }, "Dual-Screen-Mods und Recomps für den AYN Thor")),
-      h("p", { class: "lead" }, "Für jeden Mod steht hier, was du zum Installieren brauchst, ob er etwas kostet und ob der Code offen liegt. Wenn er nicht startet, schau in die Liste der bekannten Fehler."),
-      h("div", { class: "search", role: "search" }, h("label", { for: "q" }, "Spiel suchen"), input),
+      h("div", { class: "brand" }, h("img", { class: "logo", src: "logo.svg", alt: "", width: "44", height: "44" }),
+        h("h1", { tabindex: "-1" }, "Thor-Hub"), h("span", { class: "tag" }, t("tagline"))),
+      h("p", { class: "lead" }, t("lead")),
+      h("div", { class: "search", role: "search" }, h("label", { for: "q" }, t("searchLabel")), input),
       status, grid
     );
     update();
@@ -81,7 +174,8 @@
   function tile(e) {
     return h("li", {},
       h("a", { class: "tile", href: "#" + e.id },
-        h("h2", {}, e.spiel), h("p", { class: "mod" }, e.mod_name), chips(e)));
+        picture(e, "tile-img"),
+        h("div", { class: "tile-body" }, h("h2", {}, e.spiel), h("p", { class: "mod" }, e.mod_name), chips(e))));
   }
 
   /* ---------- Steckbrief ---------- */
@@ -91,50 +185,52 @@
     state.checks.set(e.id, checks);
 
     const progress = h("span", { class: "progress" });
-    const setProgress = () => { progress.textContent = `${checks.size} von ${e.du_brauchst.length} erledigt`; };
+    const setProgress = () => { progress.textContent = t("progress")(checks.size, e.du_brauchst.length); };
     const needs = h("ul", { class: "checklist" }, e.du_brauchst.map((n, i) => {
-      const cb = h("input", { type: "checkbox", checked: checks.has(i) });
+      const cb = h("input", { type: "checkbox" });
+      cb.checked = checks.has(i);
       cb.addEventListener("change", () => { cb.checked ? checks.add(i) : checks.delete(i); setProgress(); });
-      return h("li", {}, h("label", {}, cb, h("span", {}, n)));
+      return h("li", {}, h("label", {}, cb, h("span", {}, tr(n))));
     }));
     setProgress();
 
     const errors = e.bekannte_fehler.length
       ? h("ul", { class: "errors" }, e.bekannte_fehler.map(errorItem))
-      : h("p", { class: "empty" }, "Die Quelle nennt bisher keine bekannten Fehler. Nutze den Helfer oder frag im Entwickler-Thread.");
+      : h("p", { class: "empty" }, t("noErrors"));
 
+    const note = tr(e.pruefnotiz);
     const notice = e.pruefdatum ? null : h("p", { class: "notice" },
-      `Entwurf vom ${fmtDate(e.entwurf_vom)}: aus der Originalquelle zusammengefasst, noch nicht geprüft. Im Zweifel gilt die Originalquelle.`,
-      e.pruefnotiz ? h("br") : null, e.pruefnotiz ? "Prüfnotiz: " + e.pruefnotiz : null);
+      t("draftNotice")(fmtDate(e.entwurf_vom)), note ? h("br") : null, note ? t("checkNote") + note : null);
 
     main.replaceChildren(
-      h("a", { class: "back", href: "#" }, "← Alle Mods"),
+      h("a", { class: "back", href: "#" }, t("back")),
       h("article", { class: "detail" },
+        picture(e, "hero"),
         h("h1", { tabindex: "-1" }, e.spiel),
         h("p", { class: "mod" }, e.mod_name),
         chips(e),
-        h("p", { class: "kurz" }, e.kurz),
+        h("p", { class: "kurz" }, tr(e.kurz)),
         notice,
         h("section", { class: "card", "aria-labelledby": "needs-h" },
-          h("h2", { id: "needs-h" }, "Du brauchst", progress), needs,
-          h("div", { class: "actions" }, ext(e.originalquelle, "Zur Originalquelle ↗", "btn")),
-          e.weitere_quellen.length ? h("ul", { class: "sources" }, e.weitere_quellen.map(s => h("li", {}, ext(s.url, s.titel)))) : null,
-          h("p", { class: "hint" }, `Lizenz: ${e.lizenz}`)
+          h("h2", { id: "needs-h" }, t("needs"), progress), needs,
+          h("div", { class: "actions" }, ext(e.originalquelle, t("toSource"), "btn")),
+          e.weitere_quellen.length ? h("ul", { class: "sources" }, e.weitere_quellen.map(s => h("li", {}, ext(s.url, tr(s.titel))))) : null,
+          h("p", { class: "hint" }, t("license") + tr(e.lizenz))
         ),
         helperSection(e),
-        h("section", { class: "card", "aria-labelledby": "err-h" }, h("h2", { id: "err-h" }, "Bekannte Fehler"), errors)
+        h("section", { class: "card", "aria-labelledby": "err-h" }, h("h2", { id: "err-h" }, t("errors")), errors)
       )
     );
     return main.querySelector("h1");
   }
 
   function errorItem(f) {
-    const statusCls = f.status === "Lösung bekannt" ? "ok" : f.status === "offen" ? "warn" : "";
+    const cls = f.status === "solved" ? "ok" : f.status === "open" ? "warn" : "";
     return h("li", { class: "error", id: "fehler-" + f.id },
-      h("h3", {}, h("span", { class: "eid" }, f.id), f.symptom, h("span", { class: "chip " + statusCls }, f.status)),
-      h("p", {}, h("strong", {}, "Ursache: "), f.ursache),
-      h("ol", {}, f.loesung.map(s => h("li", {}, s))),
-      h("p", { class: "src" }, "Quelle: ", ext(f.quelle_url, f.quelle)));
+      h("h3", {}, h("span", { class: "eid" }, f.id), tr(f.symptom), h("span", { class: "chip " + cls }, t("status")[f.status] || f.status)),
+      h("p", {}, h("strong", {}, t("cause")), tr(f.ursache)),
+      h("ol", {}, f.loesung.map(s => h("li", {}, tr(s)))),
+      h("p", { class: "src" }, t("source"), ext(f.quelle_url, tr(f.quelle))));
   }
 
   function highlightError(id) {
@@ -147,34 +243,30 @@
 
   /* ---------- Helfer ---------- */
   function helperSection(e) {
-    const ta = h("textarea", { id: "frage", maxlength: "1000",
-      placeholder: "z. B. „Die Texte fehlen, ich nutze eine deutsche ROM.“", "aria-describedby": "helper-hint" });
-    const btn = h("button", { class: "btn", type: "button" }, "Helfer fragen");
+    const ta = h("textarea", { id: "frage", maxlength: "1000", placeholder: t("helperPh"), "aria-describedby": "helper-hint" });
+    const btn = h("button", { class: "btn", type: "button" }, t("ask"));
     const out = h("div", { "aria-live": "polite" });
-    const hint = h("p", { id: "helper-hint", class: "hint" },
-      "Beschreibe Fehlermeldung, Version oder ROM-Region. Der Helfer antwortet nur aus diesem Steckbrief.");
+    const hint = h("p", { id: "helper-hint", class: "hint" }, t("helperHint"));
+    const label = h("label", { for: "frage", class: "hint" }, t("helperLabel"));
     const section = h("section", { class: "card helper", "aria-labelledby": "helper-h" },
-      h("h2", { id: "helper-h" }, "Installationshelfer"), h("label", { for: "frage", class: "hint" }, "Dein Problem"), ta, hint,
-      h("div", { class: "actions" }, btn), out);
+      h("h2", { id: "helper-h" }, t("helper")), label, ta, hint, h("div", { class: "actions" }, btn), out);
 
     const showPlanB = () => {
       ta.disabled = true; btn.disabled = true;
-      if (ON_PAGES) { ta.hidden = true; btn.hidden = true; section.querySelector("label").hidden = true; }
-      hint.textContent = ON_PAGES
-        ? "In dieser öffentlichen Version ist der Helfer noch ausgeschaltet. Er läuft bisher nur in einer Testversion."
-        : "Der Helfer ist hier gerade nicht verfügbar.";
-      out.replaceChildren(answerBox("unbekannt", "Helfer aus",
-        [h("p", {}, "Schau unten unter „Bekannte Fehler“. Steht dein Problem nicht dabei, frag im ", ext(e.entwickler_thread, "Entwickler-Thread"), " nach.")]));
+      if (ON_PAGES) { ta.hidden = true; btn.hidden = true; label.hidden = true; }
+      hint.textContent = ON_PAGES ? t("offPages") : t("offHere");
+      const [a, link, b] = t("offBody");
+      out.replaceChildren(answerBox("unbekannt", t("off"), [h("p", {}, a, ext(e.entwickler_thread, link), b)]));
     };
 
     const submit = async () => {
       const q = ta.value.trim();
-      if (!q) { out.replaceChildren(answerBox("fehler", "Hinweis", [h("p", {}, "Bitte beschreibe zuerst dein Problem.")])); ta.focus(); return; }
+      if (!q) { out.replaceChildren(answerBox("fehler", t("hintLabel"), [h("p", {}, t("empty"))])); ta.focus(); return; }
       if (!state.sample) { showPlanB(); return; }
       if (state.abort) state.abort.abort();
       const ac = new AbortController(); state.abort = ac;
       btn.disabled = true;
-      out.replaceChildren(answerBox("", "Helfer sucht im Steckbrief", [h("p", { class: "dots" }, "Moment, ich schaue nach")]));
+      out.replaceChildren(answerBox("", t("thinking"), [h("p", { class: "dots" }, t("wait"))]));
       try {
         const res = await state.sample(buildPrompt(e, q), { modelTier: "quick", signal: ac.signal });
         out.replaceChildren(renderAnswer(e, parseAnswer(res.text)));
@@ -182,10 +274,8 @@
         if (ac.signal.aborted) return;
         const code = err && err.code;
         if (code === "not_granted") { showPlanB(); return; }
-        const msg = code === "rate_limited" ? "Gerade zu viele Anfragen. Bitte in einer Minute noch einmal versuchen."
-          : code === "parse" ? "Die Antwort war unvollständig. Bitte noch einmal fragen."
-          : "Der Helfer konnte nicht antworten.";
-        out.replaceChildren(answerBox("fehler", "Fehler", [h("p", {}, msg + " Bis dahin helfen die bekannten Fehler oder der "), ext(e.entwickler_thread, "Entwickler-Thread"), "."]));
+        const msg = code === "rate_limited" ? t("rate") : code === "parse" ? t("parse") : t("fail");
+        out.replaceChildren(answerBox("fehler", t("errLabel"), [h("p", {}, msg + t("failTail"), ext(e.entwickler_thread, t("askThread")[1]), ".")]));
       } finally {
         if (state.abort === ac) state.abort = null;
         if (!ta.disabled) btn.disabled = false;
@@ -203,13 +293,14 @@
   }
 
   function buildPrompt(e, question) {
+    const statusWord = { solved: "geloest", open: "offen", limitation: "einschraenkung", note: "hinweis" };
     const wissen = {
-      spiel: e.spiel, mod: e.mod_name, typ: e.typ, du_brauchst: e.du_brauchst,
+      spiel: e.spiel, mod: e.mod_name, typ: e.typ, du_brauchst: e.du_brauchst.map(tr),
       originalquelle: e.originalquelle, entwickler_thread: e.entwickler_thread,
-      bekannte_fehler: e.bekannte_fehler.map(f => ({ id: f.id, symptom: f.symptom, ursache: f.ursache, loesung: f.loesung, status: f.status }))
+      bekannte_fehler: e.bekannte_fehler.map(f => ({ id: f.id, status: statusWord[f.status] || f.status, symptom: tr(f.symptom), ursache: tr(f.ursache), loesung: f.loesung.map(tr) }))
     };
     return [
-      "Du bist der Installationshelfer des Thor-Hub. Antworte auf Deutsch, kurz und freundlich, per Du.",
+      `Du bist der Installationshelfer des Thor-Hub. Antworte auf ${t("answerLang")}, kurz und freundlich, ${t("du")}.`,
       "REGELN:",
       "- Nutze AUSSCHLIESSLICH das WISSEN unten. Kein Allgemeinwissen, keine Vermutungen, keine anderen Mods.",
       "- Passt die Frage eindeutig zu einem bekannten Fehler mit Lösung: art=\"loesung\", verweis=dessen id, schritte=die Lösungsschritte dieses Eintrags.",
@@ -242,16 +333,17 @@
     if (a.art === "loesung" && Array.isArray(a.schritte) && a.schritte.length) body.push(h("ol", {}, a.schritte.map(s => h("li", {}, s))));
     if (a.art === "rueckfrage" && a.frage) body.push(h("p", {}, h("strong", {}, a.frage)));
     if (ref) {
-      body.push(h("p", {}, "Mehr dazu: ",
-        h("button", { class: "linkish", type: "button", onclick: () => highlightError(ref.id) }, `Bekannter Fehler ${ref.id}`),
-        " · Quelle: ", ext(ref.quelle_url, ref.quelle)));
+      body.push(h("p", {}, t("more"),
+        h("button", { class: "linkish", type: "button", onclick: () => highlightError(ref.id) }, t("knownErr")(ref.id)),
+        " · " + t("source"), ext(ref.quelle_url, tr(ref.quelle))));
       setTimeout(() => highlightError(ref.id), 50);
     }
-    if (a.art === "unbekannt" || a.art === "offen")
-      body.push(h("p", {}, "Frag im ", ext(e.entwickler_thread, "Entwickler-Thread"), " nach. Dort lesen die Entwickler mit."));
-    const labels = { loesung: "Lösung", offen: "Bekannt, noch ohne Lösung", rueckfrage: "Rückfrage", unbekannt: "Unbekannt" };
-    if (a.art === "rueckfrage") setTimeout(() => { const t = document.getElementById("frage"); if (t) t.focus(); }, 50);
-    return answerBox(a.art, labels[a.art], body);
+    if (a.art === "unbekannt" || a.art === "offen") {
+      const [x, link, y] = t("askThread");
+      body.push(h("p", {}, x, ext(e.entwickler_thread, link), y));
+    }
+    if (a.art === "rueckfrage") setTimeout(() => { const el = document.getElementById("frage"); if (el) el.focus(); }, 50);
+    return answerBox(a.art, t("kinds")[a.art], body);
   }
 
   // window.claude kann verzögert erscheinen; null nach Zeitüberschreitung → Plan B
@@ -280,9 +372,12 @@
     routed = true;
   }
 
-  document.querySelector(".skip").addEventListener("click", ev => { ev.preventDefault(); main.focus(); });
+  const skip = document.querySelector(".skip");
+  if (skip) skip.addEventListener("click", ev => { ev.preventDefault(); main.focus(); });
+  document.querySelectorAll(".lang [data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
 
   async function boot() {
+    applyChrome();
     whenSample();
     try {
       const res = await fetch("data/steckbriefe.json", { cache: "no-cache" });
@@ -290,7 +385,7 @@
       state.entries = await res.json();
       state.entries.forEach(e => state.byId.set(e.id, e));
     } catch (err) {
-      main.replaceChildren(h("p", { class: "fatal" }, "Die Steckbriefe konnten nicht geladen werden. Bitte Seite neu laden."));
+      main.replaceChildren(h("p", { class: "fatal" }, t("loadFail")));
       console.error("[Thor-Hub] Daten nicht geladen:", err);
       return;
     }

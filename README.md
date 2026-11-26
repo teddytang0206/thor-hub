@@ -21,7 +21,8 @@ Der Hub stellt keine Mod-Dateien bereit. Alle Downloads laufen über die Origina
 | `app.js` | Übersicht, Steckbrief-Ansicht, Abhak-Liste, Helfer (mit Plan B) |
 | `search.js` | Suche ohne KI, verträgt Tippfehler |
 | `data/steckbriefe.json` | Die fünf Steckbriefe, von Hand gepflegt |
-| `evidence.html` | D3: Iterationslog, Prompts, Tools, Fehlversuche, nächster Test |
+| `evidence.html`, `evidence.en.html` | D3: Iterationslog, Prompts, Tools, Fehlversuche, nächster Test (Deutsch und Englisch) |
+| `images/`, `logo.svg` | Eigene Pixel-Art-Bilder, keine Originalgrafiken der Spiele |
 | `tests/` | Suchtest (Node) und Render-Check (Playwright) |
 
 ## Lokal starten
@@ -42,7 +43,7 @@ python3 tests/render_check.py   # braucht: pip install playwright && playwright 
 
 ## Einen Steckbrief ändern
 
-Alles steht in `data/steckbriefe.json`. Wenn ein Steckbrief gegen die Quelle geprüft ist, kommt das Datum in `pruefdatum` (Format `2026-11-30`). Die Seite zeigt dann „geprüft am …“ statt „Entwurf“.
+Alles steht in `data/steckbriefe.json`. Texte stehen dort als `{"de": "…", "en": "…"}`, damit der Sprachumschalter beide Fassungen anzeigen kann. Ein eigenes Bild kommt nach `images/` und wird im Feld `bild` eingetragen. Wenn ein Steckbrief gegen die Quelle geprüft ist, kommt das Datum in `pruefdatum` (Format `2026-11-30`). Die Seite zeigt dann „geprüft am …“ statt „Entwurf“.
 
 ## Mit KI gebaut
 

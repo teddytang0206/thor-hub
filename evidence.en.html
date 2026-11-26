@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="D3 · MVP V1 and build evidence for the Thor-Hub: iteration log, prompt, tool and model decisions, failed attempts and the next test.">
+<title>Build evidence (D3) · Thor-Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&family=Press+Start+2P&display=swap">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#141228">
+<link rel="alternate" hreflang="de" href="evidence.html">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="wrap">
+  <nav class="topnav" aria-label="Pages">
+    <a href="./">Hub</a><a href="evidence.en.html" aria-current="page">Build evidence (D3)</a>
+    <div class="lang" role="group" aria-label="Language">
+      <a href="evidence.html" lang="de" hreflang="de" data-lang="de">DE</a><a href="evidence.en.html" aria-current="page" lang="en" hreflang="en" data-lang="en">EN</a>
+    </div>
+  </nav>
+
+  <main id="content" class="doc">
+    <h1>D3 · MVP V1 &amp; Build Evidence</h1>
+    <p class="meta">Teddy Tin Chi Tang (solo) · AI Startup Game, HdM, winter term 2026/27 · Last updated 26 Nov 2026</p>
+    <p class="meta">The German version on the <a href="evidence.html">DE page</a> is the one I'm submitting. This is a translation.</p>
+
+    <div class="toc">
+      <strong>On this page</strong>
+      <ol>
+        <li><a href="#mvp">The MVP V1</a></li>
+        <li><a href="#stand">Done criteria and test status</a></li>
+        <li><a href="#log">Iteration log</a></li>
+        <li><a href="#prompts">Prompts</a></li>
+        <li><a href="#tools">Tool and model decisions</a></li>
+        <li><a href="#fehl">Failed attempts and what came of them</a></li>
+        <li><a href="#test">Next test</a></li>
+      </ol>
+    </div>
+
+    <h2 id="mvp">1 · The MVP V1</h2>
+    <p>The Thor-Hub collects dual-screen mods and recomps for the AYN Thor in one place. Each mod has its own page. It says what you need to install it, whether it costs anything, whether the code is open and which issues are already known. The problem comes from D1: a lot of Thor owners find mods by chance on TikTok or Reddit and then get stuck installing them.</p>
+    <p>V1 has five mods: Dusklight (Twilight Princess), Pokémon Emerald, The Minish Cap, Call of Duty: Black Ops II (T6 Requiem) and Stardew Valley. I'm working alone, so I kept it at five for the first version.</p>
+    <p>The <a href="./">Hub</a> page is the version you can try. You can search (typos are fine), open a mod page, tick off what you need and follow the button to the original source. Every known issue links to where it came from.</p>
+    <div class="callout">
+      <p style="margin:0">The install helper exists in two versions. It's switched off in this public GitHub Pages version, because the feature it uses to ask Claude only works inside a Claude artifact page. I have a test version with the helper there. The reason is explained under <a href="#fehl">failed attempts</a>.</p>
+    </div>
+    <p>Things V1 deliberately leaves out: user accounts, comments, hosting files and finding new mods automatically. That's how the backlog from 17 Nov puts it.</p>
+
+    <h2 id="stand">2 · Done criteria and test status</h2>
+    <p>I set the criteria on 17 Nov with the app planner. To be honest, none of them is fully checked yet. So far only Claude has run pre-tests.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Criterion</th><th>Status on 24 Nov</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>All 5 mod pages complete and checked against the original source</td><td><span class="badge warn">open</span> Drafts are done. Claude summarised them from READMEs and GitHub issues, and I still have to check them. Every page is marked "draft · unchecked".</td></tr>
+        <tr><td>2</td><td>Misspellings lead to the right mod page</td><td><span class="badge ok">pre-test 14/14</span> Claude ran 14 automated search cases (<code>tests/search.test.js</code>). My own test with 5 spellings is still to do.</td></tr>
+        <tr><td>3</td><td>Helper: at least 8 of 10 cases right, says "unknown" when it doesn't know, no harmful instruction</td><td><span class="badge warn">open</span> The helper is built but has never been tested with real cases. That's the <a href="#test">next test</a>.</td></tr>
+        <tr><td>4</td><td>A test person with a Thor finds the requirements without help</td><td><span class="badge warn">open</span> I haven't asked anyone yet.</td></tr>
+        <tr><td>5</td><td>Every download path leads to the original source, no files in the hub</td><td><span class="badge warn">partly</span> Built that way, the hub has no downloads of its own. I haven't done the link check yet.</td></tr>
+        <tr><td>6</td><td>Easy to use on the Thor</td><td><span class="badge warn">open</span> Only looked at in a phone-sized test browser (412 px) so far, not on the device.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="log">3 · Iteration log</h2>
+    <p>Everything here actually happened. Claude (Opus 5.5) did the building in the Claude app, inside the "AI Startup Game" project. I reviewed, corrected and made the decisions.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Date</th><th>Step</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>26 Oct</td><td>D1 problem survey</td><td>Decision "keep checking". The problem got sharper around versions and trust.</td></tr>
+        <tr><td>17 Nov</td><td>D2 solution plan submitted</td><td>Format web app, offer: mod pages plus an AI helper, 5 mods in the MVP.</td></tr>
+        <tr><td>17 Nov</td><td>App planner with D2 as the basis</td><td>Claude proposed the core, limits and 6 done criteria, plus a plan B (hub without the helper if the helper doesn't hold up). I confirmed. Then came the user journey, views, build path and a backlog with tasks K1 to R1. I confirmed those too.</td></tr>
+        <tr><td>17 Nov</td><td>Sources added</td><td>I sent the five original sources and Claude read them. I classed Black Ops II as a recomp and linked the right dual-screen fork for Dusklight. That's why the template got a "type" field and the platform app under "you need".</td></tr>
+        <tr><td>17 Nov</td><td>K1: helper test page</td><td>Claude published a small artifact page with a Minish Cap entry and two test questions. I shortened "you need" (see failed attempts). The real test is still open.</td></tr>
+        <tr><td>24 Nov</td><td>Status check</td><td>According to the plan the content should have been done by then. The MVP date of 1 Dec is tight.</td></tr>
+        <tr><td>24 Nov</td><td>MVP built</td><td>Claude read the Pokémon README and the Minish Cap and Dusklight issues and wrote 5 draft mod pages. Then it built the search as its own module, the interface and the helper with plan B. Published as an artifact with the helper.</td></tr>
+        <tr><td>24 Nov</td><td>Pre-tests</td><td>Search test: the first run passed 13 of 14, and the failure was in the test itself (see failed attempts). After that 14 of 14. Render check in Chromium at 412 px: no console errors, plan B kicks in. Two usability problems found and fixed.</td></tr>
+        <tr><td>24 Nov</td><td>This GitHub Pages version</td><td>Added navigation and this page, switched the helper off on GitHub Pages and reworked the text to drop typical AI phrasing. I created the repo myself because Claude can't create one on my account. Uploading didn't work at first either, since the Claude GitHub app wasn't installed. Once I allowed it for this repo, Claude uploaded the files.</td></tr>
+        <tr><td>24 Nov</td><td>Retro design</td><td>At my request Claude switched the design to an 8-bit and 16-bit look. Headings and labels use a pixel font, body text uses a readable pixel sans. There are no logos or trademarks of console makers.</td></tr>
+        <tr><td>26 Nov</td><td>Images and language switch</td><td>Each mod now has its own pixel art image that Claude drew with a script. I also got a German/English switch. The mod pages exist in both languages, and the helper answers in the selected one.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="prompts">4 · Prompts</h2>
+    <h3>My prompts to Claude</h3>
+    <p>I used a handful of short prompts, all in German. The structure came from the course skill "app-planer", which asks for my approval at two points.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>When</th><th>Prompt (verbatim, German)</th><th>What came out</th></tr></thead>
+      <tbody>
+        <tr><td>17 Nov</td><td><code>/app-planer nutze meine d2 dafür</code> (with the D2 PDF)</td><td>Core, criteria, journey and backlog</td></tr>
+        <tr><td>17 Nov</td><td><code>kannst du für mich die k1 ausfüllen?</code></td><td>Attempt via the built-in browser, failed at sign-in</td></tr>
+        <tr><td>24 Nov</td><td><code>kannst du den mvp nun erstellen und nach best practice bauen?</code></td><td>MVP with data, search, helper and tests</td></tr>
+        <tr><td>24 Nov</td><td><code>kannst du eine github site bauen … und es nach best practice entkifiziieren</code></td><td>This site</td></tr>
+        <tr><td>24 Nov</td><td><code>design soll homebrew/snes/8bit ähnlich sein</code></td><td>Retro design</td></tr>
+        <tr><td>26 Nov</td><td><code>kannst du bilder und einen regler für deutsch/englisch einbauen?</code></td><td>Pixel art images, DE/EN switch</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>The install helper's prompt</h3>
+    <p>The helper gets this text with every question (the original is in German). The current mod page as JSON and the question are attached below it.</p>
+<pre>You are the install helper of the Thor-Hub. Answer in [selected language], briefly and in a friendly, casual tone.
+RULES:
+- Use ONLY the KNOWLEDGE below. No general knowledge, no guessing, no other mods.
+- If the question clearly matches a known issue with a fix: type="fix", reference=its id,
+  steps=the fix steps of that entry.
+- If it matches a known issue with status "open": type="open", reference=its id,
+  explain that there's no fix yet.
+- If it points to a requirement from "you need" that seems to be missing: type="fix", reference=null,
+  steps name the missing requirement.
+- If something is missing to tell entries apart: type="question" with exactly one short question.
+- Otherwise: type="unknown". Don't make anything up.
+- Never recommend downloads outside the original source, deleting saves
+  or permanently turning off security features.
+Reply ONLY with JSON: {"type":..., "reference":..., "text":..., "steps":[...], "question":...}</pre>
+    <p>Why it looks like this:</p>
+    <ul>
+      <li>Its knowledge is limited to the mod page. Wrong answers were my biggest worry in D2, and this way the helper can only repeat what's on the page.</li>
+      <li>The answer comes back as JSON. The page builds the display from it and never inserts the text as HTML. An issue only gets linked if that ID really exists on the page.</li>
+      <li>There are four answer types. "Open" was added because many real Minish Cap problems have an issue but no fix yet, and the helper should be able to say so without inventing one.</li>
+      <li>The safety rule is there because my threshold from D2 requires "no harmful instruction".</li>
+    </ul>
+
+    <h2 id="tools">5 · Tool and model decisions</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Task</th><th>Tool / model</th><th>Why</th><th>Limit</th></tr></thead>
+      <tbody>
+        <tr><td>Planning and writing code</td><td>Claude Opus 5.5 in the Claude app, "app-planer" skill</td><td>I have Claude Pro. The skill comes from the course and lets me decide at two checkpoints.</td><td>Code and text are AI-generated, so I have to check them.</td></tr>
+        <tr><td>Draft mod pages</td><td>Claude reads READMEs and GitHub issues via web fetch</td><td>The threads are long and in English, and summarising saves a lot of time.</td><td>GitHub blocked one fetch for too many requests. Discord content can't be fetched.</td></tr>
+        <tr><td>Install helper</td><td>Claude through the artifact feature "ask Claude", "quick" tier</td><td>No API key needed and I have no budget. The quick tier is enough for short answers from one page.</td><td>Only runs inside a Claude artifact page. Whether people without my account can use it is unclear.</td></tr>
+        <tr><td>Search</td><td>Own rules without AI (edit distance and character trigrams)</td><td>Free, fast and testable with fixed cases.</td><td>Only finds names and variants listed on the pages.</td></tr>
+        <tr><td>Images</td><td>Pixel art drawn by a Python script, saved as SVG</td><td>Original artwork instead of protected game graphics. SVG stays sharp and is tiny.</td><td>The images only hint at each game.</td></tr>
+        <tr><td>Public version</td><td>GitHub Pages</td><td>Free, no server, and anyone can open the link.</td><td>Static files only, so no helper.</td></tr>
+        <tr><td>Testing</td><td>Node.js for the search tests, Playwright with Chromium for the render check</td><td>Repeatable. The tests live in the repo under <code>tests/</code>.</td><td>Doesn't replace testing on the Thor and with real users.</td></tr>
+        <tr><td>Not used</td><td>Local model on my RTX 3070, paid API, Render</td><td>A local model only runs while my PC is on. There's no budget for an API. Render isn't needed while the site is static.</td><td>For a public helper I'll have to pick one of these later or stay with plan B.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="fehl">6 · Failed attempts and what came of them</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>What happened</th><th>Decision</th></tr></thead>
+      <tbody>
+        <tr><td>In D2 I briefly put automatic discovery of new mods into the MVP. That's far too much work for one person, and the entries would have been unchecked.</td><td>Taken out again. It can come later, for example through a GitHub pipeline.</td></tr>
+        <tr><td>The official Dusklight site said nothing about dual screen on the Thor.</td><td>I sent the fork with dual-screen support. The page now points to the fork and lists the original as another source.</td></tr>
+        <tr><td>Claude wrote that dual screen wasn't confirmed for Black Ops II.</td><td>It's a recomp and doesn't need it. The template now has a "type" field with dual-screen mod or recomp.</td></tr>
+        <tr><td>I'm not sure the Stardew mod is the same one as in the TikTok video from D1. The repo has one star and lists no known issues.</td><td>It stays in, with a note on its page. Comparing it with the video is still to do.</td></tr>
+        <tr><td>The first "you need" list for Minish Cap was too technical, with a SHA-1 checksum and a folder path.</td><td>Cut down to device, own ROM and APK. The path now only appears in the issue "app can't find the ROM". The Retroid Pocket Duo counts as a device too.</td></tr>
+        <tr><td>Claude was supposed to run K1 through the desktop app's built-in browser. I wasn't signed in there, and Claude isn't allowed to type my password.</td><td>The test stays with me. It's now part of the next test.</td></tr>
+        <tr><td>While reading the sources, GitHub blocked a request for too many requests, so the Pokémon page was missing at first.</td><td>Fetch one after another instead of all at once. The page has been read since.</td></tr>
+        <tr><td>In the first search test "twilight princes" failed. A "did you mean" was expected, but the search found Dusklight directly because "princes" is the start of "Princess".</td><td>The behaviour is right and the test was wrong. I fixed the test and added a real typo case.</td></tr>
+        <tr><td>In the render check the Minish Cap helper only showed up after seven issue entries. The heading also had a focus ring on load.</td><td>The helper now sits above "known issues", and focus only moves when the view changes.</td></tr>
+        <tr><td>"Ask Claude" only exists in Claude artifact pages. On GitHub Pages the helper would need a paid API or its own server.</td><td>Public version without the helper (plan B from the backlog), test version with the helper as an artifact. The page detects GitHub Pages and shows the pointer to the known issues straight away.</td></tr>
+        <tr><td>Game covers and screenshots were the obvious choice for images. They're copyrighted, and I can't just show characters like Link or Pokémon.</td><td>Claude drew original pictures instead, such as a twilight sky for Dusklight and a green gem for Emerald. I can add my own screenshots from the Thor later.</td></tr>
+        <tr><td>Claude couldn't create a repository on my GitHub account and at first couldn't upload either, because the Claude GitHub app wasn't installed there.</td><td>I created the empty repo and allowed the Claude app for this repo only. After that Claude uploaded the files.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="test">7 · Next test</h2>
+    <p>The next test is the helper check (P1 in the backlog). It tests my biggest open question from D2: does the helper answer correctly?</p>
+    <h3>How it works</h3>
+    <ol>
+      <li>I write down 10 real problem cases with the expected answer. Some of them are deliberately not on the page, so I can check that it says "unknown". Minish Cap works best because it has the most real issues.</li>
+      <li>I enter the cases into the helper in the artifact version and note every answer.</li>
+      <li>Then a second person opens the link without my account and asks one of the questions. That settles K1 at the same time.</li>
+    </ol>
+    <h3>How I judge the result</h3>
+    <p>At least 8 of 10 right and no harmful instruction: the helper stays, and I look for a way to offer it publicly. Below 6 of 10 or one badly wrong instruction: it goes, and the public version stays as it is here. In between, I do one round of prompt fixes and run it again.</p>
+    <p>After that comes the test with a person on a Thor (criterion 4). This GitHub Pages version is enough for it.</p>
+  </main>
+
+  <footer>Code, data and tests: <a href="https://github.com/teddytang0206/thor-hub">github.com/teddytang0206/thor-hub</a>. This page changes as new tests come in.</footer>
+</div>
+<script>
+  // Sprachwahl merken, damit der Hub dieselbe Sprache zeigt
+  document.querySelectorAll(".lang [data-lang]").forEach(a => a.addEventListener("click", () => { try { localStorage.setItem("thorhub-lang", a.dataset.lang); } catch (_) {} }));
+</script>
+</body>
+</html>

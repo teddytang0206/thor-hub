@@ -10,16 +10,22 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&family=Press+Start+2P&display=swap">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <meta name="theme-color" content="#141228">
+<link rel="alternate" hreflang="en" href="evidence.en.html">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 <div class="wrap">
-  <nav class="topnav" aria-label="Seiten"><a href="./">Hub</a><a href="evidence.html" aria-current="page">Build Evidence (D3)</a></nav>
+  <nav class="topnav" aria-label="Seiten">
+    <a href="./">Hub</a><a href="evidence.html" aria-current="page">Build Evidence (D3)</a>
+    <div class="lang" role="group" aria-label="Sprache">
+      <a href="evidence.html" aria-current="page" lang="de" hreflang="de" data-lang="de">DE</a><a href="evidence.en.html" lang="en" hreflang="en" data-lang="en">EN</a>
+    </div>
+  </nav>
 
   <main id="inhalt" class="doc">
     <h1>D3 · MVP V1 &amp; Build Evidence</h1>
-    <p class="meta">Teddy Tin Chi Tang (allein) · AI Startup Game, HdM, WiSe 2026/27 · Stand 24.11.2026</p>
+    <p class="meta">Teddy Tin Chi Tang (allein) · AI Startup Game, HdM, WiSe 2026/27 · Stand 26.11.2026</p>
 
     <div class="toc">
       <strong>Auf dieser Seite</strong>
@@ -72,6 +78,7 @@
         <tr><td>24.11.</td><td>Vortests</td><td>Suchtest: erster Lauf 13 von 14, der Fehler lag im Test (siehe Fehlversuche), danach 14 von 14. Render-Check in Chromium bei 412 px Breite: keine Konsolenfehler, Plan B greift. Zwei Bedienprobleme gefunden und behoben.</td></tr>
         <tr><td>24.11.</td><td>Diese GitHub-Pages-Version</td><td>Navigation und diese Seite ergänzt, Helfer auf GitHub Pages abgeschaltet, Texte gegen typische KI-Formulierungen überarbeitet. Das Repo habe ich selbst angelegt, weil Claude auf meinem Konto keins erstellen kann. Auch das Hochladen ging zuerst nicht, weil die Claude-GitHub-App auf meinem Konto fehlte. Nachdem ich sie für dieses Repo freigegeben hatte, hat Claude die Dateien hochgeladen.</td></tr>
         <tr><td>24.11.</td><td>Retro-Design</td><td>Auf meinen Wunsch hat Claude das Design auf einen 8-Bit- und 16-Bit-Look umgestellt. Überschriften und Labels sind in Pixelschrift, der Fließtext bleibt in einer gut lesbaren Pixel-Sans. Logos oder Markenzeichen von Konsolenherstellern sind nicht dabei.</td></tr>
+        <tr><td>26.11.</td><td>Bilder und Sprachumschalter</td><td>Jeder Mod hat jetzt ein eigenes Pixel-Art-Bild, das Claude per Skript gezeichnet hat. Dazu kam ein Umschalter für Deutsch und Englisch. Die Steckbriefe liegen dafür in beiden Sprachen vor, und der Helfer antwortet in der gewählten Sprache.</td></tr>
       </tbody>
     </table></div>
 
@@ -86,6 +93,7 @@
         <tr><td>24.11.</td><td><code>kannst du den mvp nun erstellen und nach best practice bauen?</code></td><td>MVP mit Daten, Suche, Helfer und Tests</td></tr>
         <tr><td>24.11.</td><td><code>kannst du eine github site bauen … und es nach best practice entkifiziieren</code></td><td>Diese Seite</td></tr>
         <tr><td>24.11.</td><td><code>design soll homebrew/snes/8bit ähnlich sein</code></td><td>Retro-Design</td></tr>
+        <tr><td>26.11.</td><td><code>kannst du bilder und einen regler für deutsch/englisch einbauen?</code></td><td>Pixel-Art-Bilder, DE/EN-Umschalter</td></tr>
       </tbody>
     </table></div>
 
@@ -121,6 +129,7 @@ Antworte NUR mit JSON: {"art":..., "verweis":..., "text":..., "schritte":[...], 
         <tr><td>Steckbrief-Entwürfe</td><td>Claude liest READMEs und GitHub-Issues über den Webabruf</td><td>Die Threads sind lang und auf Englisch, das Zusammenfassen spart viel Zeit.</td><td>GitHub hat einmal wegen zu vieler Abrufe blockiert. Discord-Inhalte sind nicht abrufbar.</td></tr>
         <tr><td>Installationshelfer</td><td>Claude über die Artifact-Funktion „Claude fragen“, Stufe „quick“</td><td>Ich brauche keinen API-Schlüssel und habe kein Budget. Für kurze Antworten aus einem Steckbrief reicht die schnelle Stufe.</td><td>Läuft nur in einer Claude-Artifact-Seite. Ob Leute ohne mein Konto ihn nutzen können, ist ungeklärt.</td></tr>
         <tr><td>Suche</td><td>Eigene Regeln ohne KI (Tippfehler-Abstand und Zeichen-Trigramme)</td><td>Kostet nichts, ist schnell und lässt sich mit festen Fällen testen.</td><td>Findet nur Namen und Varianten, die im Steckbrief stehen.</td></tr>
+        <tr><td>Bilder</td><td>Pixel-Art per Python-Skript als SVG</td><td>Eigene Motive statt geschützter Grafiken. SVG bleibt scharf und ist sehr klein.</td><td>Die Motive zeigen das Spiel nur sinnbildlich.</td></tr>
         <tr><td>Öffentliche Version</td><td>GitHub Pages</td><td>Kostenlos, ohne Server, und jeder kann den Link öffnen.</td><td>Nur statische Dateien, deshalb kein Helfer.</td></tr>
         <tr><td>Prüfen</td><td>Node.js für die Suchtests, Playwright mit Chromium für den Render-Check</td><td>Wiederholbar. Die Tests liegen im Repo unter <code>tests/</code>.</td><td>Ersetzt nicht den Test auf dem Thor und mit echten Nutzern.</td></tr>
         <tr><td>Nicht genutzt</td><td>Lokales Modell auf meiner RTX 3070, bezahlte API, Render</td><td>Lokal läuft das Modell nur, wenn mein PC an ist. Für die API fehlt das Budget. Render brauche ich nicht, solange die Seite statisch ist.</td><td>Für einen öffentlichen Helfer muss ich später eine dieser Lösungen wählen oder beim Plan B bleiben.</td></tr>
@@ -141,6 +150,7 @@ Antworte NUR mit JSON: {"art":..., "verweis":..., "text":..., "schritte":[...], 
         <tr><td>Im ersten Suchtest schlug „twilight princes“ fehl. Erwartet war ein „Meintest du“, die Suche fand aber direkt Dusklight, weil „princes“ der Anfang von „Princess“ ist.</td><td>Das Verhalten ist richtig, der Test war falsch. Test angepasst und einen echten Tippfehlerfall ergänzt.</td></tr>
         <tr><td>Im Render-Check stand der Helfer bei Minish Cap erst nach sieben Fehlereinträgen. Außerdem hatte die Überschrift beim Laden einen Fokusrahmen.</td><td>Helfer steht jetzt vor „Bekannte Fehler“, der Fokus springt nur beim Wechsel der Ansicht.</td></tr>
         <tr><td>„Claude fragen“ gibt es nur in Claude-Artifact-Seiten. Auf GitHub Pages bräuchte der Helfer eine bezahlte API oder einen eigenen Server.</td><td>Öffentliche Version ohne Helfer (Plan B aus dem Backlog), Testversion mit Helfer als Artifact. Die Seite erkennt GitHub Pages und zeigt dann gleich den Hinweis auf die bekannten Fehler.</td></tr>
+        <tr><td>Für die Bilder lagen Cover und Screenshots der Spiele nahe. Die sind urheberrechtlich geschützt, und Figuren wie Link oder Pokémon darf ich nicht einfach zeigen.</td><td>Claude hat eigene Motive gezeichnet, zum Beispiel einen Dämmerungshimmel für Dusklight und einen grünen Edelstein für Emerald. Eigene Screenshots von meinem Thor kann ich später ergänzen.</td></tr>
         <tr><td>Claude konnte auf meinem GitHub-Konto kein Repository anlegen und anfangs auch nichts hochladen, weil die Claude-GitHub-App dort nicht installiert war.</td><td>Ich habe das leere Repo selbst erstellt und die Claude-App für genau dieses Repo freigegeben. Danach hat Claude die Dateien hochgeladen.</td></tr>
       </tbody>
     </table></div>
@@ -160,5 +170,9 @@ Antworte NUR mit JSON: {"art":..., "verweis":..., "text":..., "schritte":[...], 
 
   <footer>Code, Daten und Tests: <a href="https://github.com/teddytang0206/thor-hub">github.com/teddytang0206/thor-hub</a>. Diese Seite ändert sich, wenn neue Tests dazukommen.</footer>
 </div>
+<script>
+  // Sprachwahl merken, damit der Hub dieselbe Sprache zeigt
+  document.querySelectorAll(".lang [data-lang]").forEach(a => a.addEventListener("click", () => { try { localStorage.setItem("thorhub-lang", a.dataset.lang); } catch (_) {} }));
+</script>
 </body>
 </html>

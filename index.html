@@ -13,16 +13,19 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<a class="skip" href="#main">Zum Inhalt springen</a>
+<a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
 <div class="wrap">
-  <nav class="topnav" aria-label="Seiten"><a href="./" aria-current="page">Hub</a><a href="evidence.html">Build Evidence (D3)</a></nav>
+  <nav class="topnav" aria-label="Seiten / Pages">
+    <a href="./" aria-current="page" data-i18n="navHub">Hub</a>
+    <a href="evidence.html" data-evidence-link data-i18n="navEvidence">Build Evidence (D3)</a>
+    <div class="lang" role="group" aria-label="Sprache">
+      <button type="button" data-lang="de" aria-pressed="true">DE</button><button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </nav>
   <main id="main" tabindex="-1">
-    <p class="loading">Thor-Hub wird geladen …</p>
+    <p class="loading">Thor-Hub …</p>
   </main>
-  <footer>
-    Der Thor-Hub stellt keine Dateien bereit. Downloads laufen immer über die Originalquelle.
-    MVP V1 von Teddy Tang, HdM, WiSe 2026/27. Steckbriefe gelten als Entwurf, bis ich sie gegen die Quelle geprüft habe.
-  </footer>
+  <footer data-i18n="footer">Der Thor-Hub stellt keine Dateien bereit. Downloads laufen immer über die Originalquelle.</footer>
 </div>
 <script src="search.js"></script>
 <script src="app.js"></script>

@@ -3,53 +3,58 @@
     "id": "dusklight",
     "spiel": "The Legend of Zelda: Twilight Princess",
     "mod_name": "Dusklight – Dual-Screen-Fork",
-    "typ": "Dual-Screen-Mod",
+    "typ": "dual-screen-mod",
+    "bild": "images/dusklight.svg",
+    "bild_alt": {"de": "Pixelbild: Dämmerungshimmel über dunklen Hügeln", "en": "Pixel art: twilight sky over dark hills"},
     "namensvarianten": ["Dusklight", "Dusk", "Twilight Princess", "Zelda Twilight Princess", "Zelda TP", "TP Dual Screen", "Dusklight Dual"],
-    "kurz": "Nachgebaute PC/Mobile-Version von Twilight Princess; dieser Fork ergänzt Android und den zweiten Bildschirm.",
+    "kurz": {
+      "de": "Nachgebaute PC- und Mobile-Version von Twilight Princess. Dieser Fork ergänzt Android und den zweiten Bildschirm.",
+      "en": "A rebuilt PC and mobile version of Twilight Princess. This fork adds Android support and the second screen."
+    },
     "du_brauchst": [
-      "AYN Thor oder ein anderes Dual-Screen-Gerät",
-      "Eigenen Dump deines Spiels (alle Retail-Discs außer der koreanischen Wii-Version)",
-      "APK aus den Releases des Forks"
+      {"de": "AYN Thor oder ein anderes Dual-Screen-Gerät", "en": "AYN Thor or another dual-screen device"},
+      {"de": "Eigenen Dump deines Spiels (alle Retail-Discs außer der koreanischen Wii-Version)", "en": "Your own dump of the game (any retail disc except the Korean Wii version)"},
+      {"de": "APK aus den Releases des Forks", "en": "APK from the fork's releases"}
     ],
-    "kosten": "keine Bezahlung erwähnt",
-    "open_source": "ja",
+    "kosten": "none_mentioned",
+    "open_source": "yes",
     "lizenz": "CC0-1.0",
     "originalquelle": "https://github.com/igawa6/dusklight",
     "entwickler_thread": "https://github.com/igawa6/dusklight/issues",
     "weitere_quellen": [
-      {"titel": "Upstream-Projekt (TwilitRealm)", "url": "https://github.com/TwilitRealm/dusklight"},
-      {"titel": "Offizielle Seite", "url": "https://twilitrealm.dev/"}
+      {"titel": {"de": "Ursprungsprojekt (TwilitRealm)", "en": "Upstream project (TwilitRealm)"}, "url": "https://github.com/TwilitRealm/dusklight"},
+      {"titel": {"de": "Offizielle Seite", "en": "Official site"}, "url": "https://twilitrealm.dev/"}
     ],
     "bekannte_fehler": [
       {
         "id": "D1",
-        "symptom": "Die APK lässt sich nicht installieren, wenn das Original-Dusklight schon installiert ist.",
-        "ursache": "Fork und Original sind mit verschiedenen Schlüsseln signiert.",
+        "status": "solved",
+        "symptom": {"de": "Die APK lässt sich nicht installieren, wenn das Original-Dusklight schon installiert ist.", "en": "The APK won't install while the original Dusklight is installed."},
+        "ursache": {"de": "Fork und Original sind mit verschiedenen Schlüsseln signiert.", "en": "The fork and the original are signed with different keys."},
         "loesung": [
-          "Im Original-Dusklight: Settings → Prelaunch → Data Folder → Change Data Folder und einen Ordner im gemeinsamen Speicher wählen.",
-          "Prüfen, dass die Dateien dort liegen.",
-          "Original deinstallieren, den Fork installieren und denselben Ordner auswählen."
+          {"de": "Im Original-Dusklight: Settings → Prelaunch → Data Folder → Change Data Folder und einen Ordner im gemeinsamen Speicher wählen.", "en": "In the original Dusklight, go to Settings → Prelaunch → Data Folder → Change Data Folder and pick a folder in shared storage."},
+          {"de": "Prüfen, dass die Dateien dort liegen.", "en": "Check that your files are there."},
+          {"de": "Original deinstallieren, den Fork installieren und denselben Ordner auswählen.", "en": "Uninstall the original, install the fork and select the same folder."}
         ],
-        "status": "Lösung bekannt",
-        "quelle": "README des Forks",
+        "quelle": {"de": "README des Forks", "en": "Fork README"},
         "quelle_url": "https://github.com/igawa6/dusklight"
       },
       {
         "id": "D2",
-        "symptom": "Mit einer Wii-Disc erscheint die GameCube-Oberfläche (HUD).",
-        "ursache": "Die zugrunde liegende Decompilation entspricht nur der GameCube-Version.",
-        "loesung": ["Erwartetes Verhalten laut README, keine Lösung vorgesehen."],
-        "status": "Einschränkung",
-        "quelle": "README des Forks",
+        "status": "limitation",
+        "symptom": {"de": "Mit einer Wii-Disc erscheint die GameCube-Oberfläche (HUD).", "en": "A Wii disc shows the GameCube HUD."},
+        "ursache": {"de": "Die zugrunde liegende Decompilation entspricht nur der GameCube-Version.", "en": "The underlying decompilation only matches the GameCube version."},
+        "loesung": [{"de": "Laut README ist das so gewollt, eine Lösung ist nicht vorgesehen.", "en": "The README says this is expected. No fix is planned."}],
+        "quelle": {"de": "README des Forks", "en": "Fork README"},
         "quelle_url": "https://github.com/igawa6/dusklight"
       },
       {
         "id": "D3",
-        "symptom": "Eigene Texturen verschwinden, nachdem der Thor gesperrt wurde.",
-        "ursache": "Unbekannt.",
-        "loesung": ["Noch keine Lösung veröffentlicht. Issue #9 verfolgen."],
-        "status": "offen",
-        "quelle": "GitHub-Issue #9",
+        "status": "open",
+        "symptom": {"de": "Eigene Texturen verschwinden, nachdem der Thor gesperrt wurde.", "en": "Custom textures disappear after the Thor has been locked."},
+        "ursache": {"de": "Unbekannt.", "en": "Unknown."},
+        "loesung": [{"de": "Noch keine Lösung veröffentlicht. Issue #9 verfolgen.", "en": "No fix published yet. Follow issue #9."}],
+        "quelle": {"de": "GitHub-Issue #9", "en": "GitHub issue #9"},
         "quelle_url": "https://github.com/igawa6/dusklight/issues/9"
       }
     ],
@@ -60,40 +65,48 @@
     "id": "pokemon-emerald",
     "spiel": "Pokémon Emerald",
     "mod_name": "pokeemerald-dualscreen",
-    "typ": "Dual-Screen-Mod",
+    "typ": "dual-screen-mod",
+    "bild": "images/pokemon-emerald.svg",
+    "bild_alt": {"de": "Pixelbild: grüner Edelstein mit Glitzern", "en": "Pixel art: a sparkling green gem"},
     "namensvarianten": ["Pokemon Emerald", "Pokémon Smaragd", "Smaragd", "Emerald", "pokeemerald", "Emerald Dual Screen", "Pokemon Emerald Dual"],
-    "kurz": "Läuft nativ ohne Emulator, auf Basis der Pokémon-Emerald-Decompilation.",
+    "kurz": {
+      "de": "Läuft nativ ohne Emulator, auf Basis der Pokémon-Emerald-Decompilation.",
+      "en": "Runs natively without an emulator, based on the Pokémon Emerald decompilation."
+    },
     "du_brauchst": [
-      "AYN Thor oder ein anderes Dual-Screen-Android-Gerät",
-      "Eigene Pokémon-Emerald-ROM (USA oder Europa), keine ROM-Hacks",
-      "APK aus dem neuesten Release",
-      "Optional: Spielstand als 128-KB-Flash-Save (.sav oder .srm)"
+      {"de": "AYN Thor oder ein anderes Dual-Screen-Android-Gerät", "en": "AYN Thor or another dual-screen Android device"},
+      {"de": "Eigene Pokémon-Emerald-ROM (USA oder Europa), keine ROM-Hacks", "en": "Your own Pokémon Emerald ROM (US or European), no ROM hacks"},
+      {"de": "APK aus dem neuesten Release", "en": "APK from the latest release"},
+      {"de": "Optional: Spielstand als 128-KB-Flash-Save (.sav oder .srm)", "en": "Optional: a save as a 128 KB flash save (.sav or .srm)"}
     ],
-    "kosten": "keine Bezahlung erwähnt",
-    "open_source": "ja",
-    "lizenz": "Lizenzdatei vorhanden, Lizenz noch nicht geprüft",
+    "kosten": "none_mentioned",
+    "open_source": "yes",
+    "lizenz": {"de": "Lizenzdatei vorhanden, Lizenz noch nicht geprüft", "en": "License file present, not checked yet"},
     "originalquelle": "https://github.com/Goldoire/pokeemerald-dualscreen",
     "entwickler_thread": "https://github.com/Goldoire/pokeemerald-dualscreen",
     "weitere_quellen": [
-      {"titel": "Neuestes Release", "url": "https://github.com/Goldoire/pokeemerald-dualscreen/releases/latest"}
+      {"titel": {"de": "Neuestes Release", "en": "Latest release"}, "url": "https://github.com/Goldoire/pokeemerald-dualscreen/releases/latest"}
     ],
     "bekannte_fehler": [
       {
         "id": "P1",
-        "symptom": "Eine ROM-Hack-Version startet nicht oder wird nicht angenommen.",
-        "ursache": "ROM-Hacks werden nicht unterstützt.",
-        "loesung": ["Eine unveränderte Pokémon-Emerald-ROM (USA oder Europa) auswählen."],
-        "status": "Lösung bekannt",
-        "quelle": "README",
+        "status": "solved",
+        "symptom": {"de": "Eine ROM-Hack-Version startet nicht oder wird nicht angenommen.", "en": "A ROM hack won't start or isn't accepted."},
+        "ursache": {"de": "ROM-Hacks werden nicht unterstützt.", "en": "ROM hacks aren't supported."},
+        "loesung": [{"de": "Eine unveränderte Pokémon-Emerald-ROM (USA oder Europa) auswählen.", "en": "Pick an unmodified Pokémon Emerald ROM (US or European)."}],
+        "quelle": {"de": "README", "en": "README"},
         "quelle_url": "https://github.com/Goldoire/pokeemerald-dualscreen"
       },
       {
         "id": "P2",
-        "symptom": "Ein mitgebrachter Spielstand lässt sich nicht importieren.",
-        "ursache": "Unterstützt werden nur 128-KB-Flash-Saves (.sav/.srm), keine Savestates oder anderen Formate.",
-        "loesung": ["Den Spielstand als .sav oder .srm (Flash, 128 KB) exportieren.", "Der Anleitung INSTALLATION.md im Repository folgen."],
-        "status": "Lösung bekannt",
-        "quelle": "README",
+        "status": "solved",
+        "symptom": {"de": "Ein mitgebrachter Spielstand lässt sich nicht importieren.", "en": "An existing save won't import."},
+        "ursache": {"de": "Unterstützt werden nur 128-KB-Flash-Saves (.sav/.srm), keine Savestates oder anderen Formate.", "en": "Only 128 KB flash saves (.sav/.srm) work. Save states and other formats don't."},
+        "loesung": [
+          {"de": "Den Spielstand als .sav oder .srm (Flash, 128 KB) exportieren.", "en": "Export the save as .sav or .srm (flash, 128 KB)."},
+          {"de": "Der Anleitung INSTALLATION.md im Repository folgen.", "en": "Follow INSTALLATION.md in the repository."}
+        ],
+        "quelle": {"de": "README", "en": "README"},
         "quelle_url": "https://github.com/Goldoire/pokeemerald-dualscreen"
       }
     ],
@@ -104,16 +117,21 @@
     "id": "minish-cap",
     "spiel": "The Legend of Zelda: The Minish Cap",
     "mod_name": "tmc-android – Dual Screen",
-    "typ": "Dual-Screen-Mod",
+    "typ": "dual-screen-mod",
+    "bild": "images/minish-cap.svg",
+    "bild_alt": {"de": "Pixelbild: großes Blatt und kleiner Pilz im Gras", "en": "Pixel art: a big leaf and a tiny mushroom in the grass"},
     "namensvarianten": ["Minish Cap", "The Minish Cap", "Zelda Minish Cap", "TMC", "Minishcap", "Minish Cap Dual Screen", "Zelda Minish"],
-    "kurz": "Native Android-Version; unten Karte, Quest-Status und Touch-Inventar, oben das Spiel.",
+    "kurz": {
+      "de": "Native Android-Version. Unten Karte, Quest-Status und Touch-Inventar, oben das Spiel.",
+      "en": "A native Android version. Map, quest status and touch inventory on the bottom screen, the game on top."
+    },
     "du_brauchst": [
-      "AYN Thor oder ein anderes Dual-Screen-Gerät (z. B. Retroid Pocket Duo)",
-      "Eigene ROM (baserom.gba)",
-      "APK aus den GitHub-Releases"
+      {"de": "AYN Thor oder ein anderes Dual-Screen-Gerät (z. B. Retroid Pocket Duo)", "en": "AYN Thor or another dual-screen device (e.g. Retroid Pocket Duo)"},
+      {"de": "Eigene ROM (baserom.gba)", "en": "Your own ROM (baserom.gba)"},
+      {"de": "APK aus den GitHub-Releases", "en": "APK from the GitHub releases"}
     ],
-    "kosten": "keine Bezahlung erwähnt",
-    "open_source": "ja",
+    "kosten": "none_mentioned",
+    "open_source": "yes",
     "lizenz": "GPL-3.0",
     "originalquelle": "https://github.com/samyost1/tmc-android",
     "entwickler_thread": "https://github.com/samyost1/tmc-android/issues",
@@ -121,65 +139,71 @@
     "bekannte_fehler": [
       {
         "id": "M1",
-        "symptom": "Mit einer EU- oder JP-ROM fehlen Texte, Bildschirme bleiben leer oder Inhalte stimmen nicht.",
-        "ursache": "Die Standard-APK ist für die USA-ROM gebaut; mit anderen Regionen entsteht eine Mischversion.",
-        "loesung": ["Eine USA-ROM (baserom.gba) verwenden.", "Für eine saubere EU-Version die EU-APK selbst bauen (siehe README)."],
-        "status": "Lösung bekannt",
-        "quelle": "README und Issues #8, #12, #22",
+        "status": "solved",
+        "symptom": {"de": "Mit einer EU- oder JP-ROM fehlen Texte, Bildschirme bleiben leer oder Inhalte stimmen nicht.", "en": "With an EU or JP ROM, text is missing, screens stay blank or content looks wrong."},
+        "ursache": {"de": "Die Standard-APK ist für die USA-ROM gebaut. Mit anderen Regionen entsteht eine Mischversion.", "en": "The default APK is built for the US ROM. Other regions end up as a mixed version."},
+        "loesung": [
+          {"de": "Eine USA-ROM (baserom.gba) verwenden.", "en": "Use a US ROM (baserom.gba)."},
+          {"de": "Für eine saubere EU-Version die EU-APK selbst bauen (siehe README).", "en": "For a clean EU version, build the EU APK yourself (see README)."}
+        ],
+        "quelle": {"de": "README und Issues #8, #12, #22", "en": "README and issues #8, #12, #22"},
         "quelle_url": "https://github.com/samyost1/tmc-android/issues/8"
       },
       {
         "id": "M2",
-        "symptom": "Android warnt bei der Installation vor einem unbekannten Entwickler.",
-        "ursache": "Die APK ist mit einem Debug-Schlüssel signiert.",
-        "loesung": ["Die Warnung ist bei dieser APK erwartet.", "Nur die APK aus den GitHub-Releases der Originalquelle verwenden."],
-        "status": "Lösung bekannt",
-        "quelle": "README",
+        "status": "solved",
+        "symptom": {"de": "Android warnt bei der Installation vor einem unbekannten Entwickler.", "en": "Android warns about an unknown developer during install."},
+        "ursache": {"de": "Die APK ist mit einem Debug-Schlüssel signiert.", "en": "The APK is signed with a debug key."},
+        "loesung": [
+          {"de": "Die Warnung ist bei dieser APK erwartet.", "en": "The warning is expected for this APK."},
+          {"de": "Nur die APK aus den GitHub-Releases der Originalquelle verwenden.", "en": "Only use the APK from the original source's GitHub releases."}
+        ],
+        "quelle": {"de": "README", "en": "README"},
         "quelle_url": "https://github.com/samyost1/tmc-android"
       },
       {
         "id": "M3",
-        "symptom": "Ein Spielstand aus mGBA lädt nur das Inventar, nicht Story-Fortschritt oder Position.",
-        "ursache": "Unbekannt.",
-        "loesung": ["Noch keine Lösung veröffentlicht. Issue #11 verfolgen."],
-        "status": "offen",
-        "quelle": "GitHub-Issue #11",
+        "status": "open",
+        "symptom": {"de": "Ein Spielstand aus mGBA lädt nur das Inventar, nicht Story-Fortschritt oder Position.", "en": "A save from mGBA only loads the inventory, not story progress or position."},
+        "ursache": {"de": "Unbekannt.", "en": "Unknown."},
+        "loesung": [{"de": "Noch keine Lösung veröffentlicht. Issue #11 verfolgen.", "en": "No fix published yet. Follow issue #11."}],
+        "quelle": {"de": "GitHub-Issue #11", "en": "GitHub issue #11"},
         "quelle_url": "https://github.com/samyost1/tmc-android/issues/11"
       },
       {
         "id": "M4",
-        "symptom": "Automatisches Speichern funktioniert nicht.",
-        "ursache": "Unbekannt.",
-        "loesung": ["Noch keine Lösung veröffentlicht. Issue #20 verfolgen."],
-        "status": "offen",
-        "quelle": "GitHub-Issue #20",
+        "status": "open",
+        "symptom": {"de": "Automatisches Speichern funktioniert nicht.", "en": "Autosave doesn't work."},
+        "ursache": {"de": "Unbekannt.", "en": "Unknown."},
+        "loesung": [{"de": "Noch keine Lösung veröffentlicht. Issue #20 verfolgen.", "en": "No fix published yet. Follow issue #20."}],
+        "quelle": {"de": "GitHub-Issue #20", "en": "GitHub issue #20"},
         "quelle_url": "https://github.com/samyost1/tmc-android/issues/20"
       },
       {
         "id": "M5",
-        "symptom": "Im ersten Tempel bleibt das Spiel beim Seerosen-Übergang in den nächsten Raum hängen.",
-        "ursache": "Unbekannt.",
-        "loesung": ["Noch keine Lösung veröffentlicht. Issue #19 verfolgen."],
-        "status": "offen",
-        "quelle": "GitHub-Issue #19",
+        "status": "open",
+        "symptom": {"de": "Im ersten Tempel bleibt das Spiel beim Seerosen-Übergang in den nächsten Raum hängen.", "en": "In the first temple the game gets stuck on the lily pad transition to the next room."},
+        "ursache": {"de": "Unbekannt.", "en": "Unknown."},
+        "loesung": [{"de": "Noch keine Lösung veröffentlicht. Issue #19 verfolgen.", "en": "No fix published yet. Follow issue #19."}],
+        "quelle": {"de": "GitHub-Issue #19", "en": "GitHub issue #19"},
         "quelle_url": "https://github.com/samyost1/tmc-android/issues/19"
       },
       {
         "id": "M6",
-        "symptom": "Seitenleiste oder Breitbildmodus werden fehlerhaft dargestellt.",
-        "ursache": "Unbekannt.",
-        "loesung": ["Noch keine Lösung veröffentlicht. Issues #27 und #28 verfolgen."],
-        "status": "offen",
-        "quelle": "GitHub-Issues #27, #28",
+        "status": "open",
+        "symptom": {"de": "Seitenleiste oder Breitbildmodus werden fehlerhaft dargestellt.", "en": "The sidebar or widescreen mode renders incorrectly."},
+        "ursache": {"de": "Unbekannt.", "en": "Unknown."},
+        "loesung": [{"de": "Noch keine Lösung veröffentlicht. Issues #27 und #28 verfolgen.", "en": "No fix published yet. Follow issues #27 and #28."}],
+        "quelle": {"de": "GitHub-Issues #27, #28", "en": "GitHub issues #27, #28"},
         "quelle_url": "https://github.com/samyost1/tmc-android/issues/28"
       },
       {
         "id": "M7",
-        "symptom": "Im Hochformat ist kein Schalter für den zweiten Bildschirm zu finden.",
-        "ursache": "Unbekannt.",
-        "loesung": ["Noch keine Lösung veröffentlicht. Issue #21 verfolgen."],
-        "status": "offen",
-        "quelle": "GitHub-Issue #21",
+        "status": "open",
+        "symptom": {"de": "Im Hochformat ist kein Schalter für den zweiten Bildschirm zu finden.", "en": "In portrait mode there's no toggle for the second screen."},
+        "ursache": {"de": "Unbekannt.", "en": "Unknown."},
+        "loesung": [{"de": "Noch keine Lösung veröffentlicht. Issue #21 verfolgen.", "en": "No fix published yet. Follow issue #21."}],
+        "quelle": {"de": "GitHub-Issue #21", "en": "GitHub issue #21"},
         "quelle_url": "https://github.com/samyost1/tmc-android/issues/21"
       }
     ],
@@ -190,32 +214,37 @@
     "id": "black-ops-2",
     "spiel": "Call of Duty: Black Ops II",
     "mod_name": "T6 Requiem",
-    "typ": "Recomp",
+    "typ": "recomp",
+    "bild": "images/black-ops-2.svg",
+    "bild_alt": {"de": "Pixelbild: nächtliche Skyline mit Fadenkreuz", "en": "Pixel art: a city skyline at night with a crosshair"},
     "namensvarianten": ["Black Ops 2", "Black Ops II", "BO2", "COD BO2", "Call of Duty Black Ops", "T6", "T6 Requiem", "Requiem"],
-    "kurz": "Inoffizielle native Android-Version mit Zombies und Multiplayer, Touch- und Controller-Steuerung.",
+    "kurz": {
+      "de": "Inoffizielle native Android-Version mit Zombies und Multiplayer, Touch- und Controller-Steuerung.",
+      "en": "An unofficial native Android version with Zombies and multiplayer, touch and controller support."
+    },
     "du_brauchst": [
-      "64-Bit-ARM-Android-Gerät mit Vulkan (empfohlen mindestens Snapdragon 765, Adreno 620, 6 GB RAM)",
-      "Steam-Version von Black Ops II inklusive Zombies- und Multiplayer-Dateien",
-      "APK aus den Releases; der Launcher richtet die Spieldateien ein"
+      {"de": "64-Bit-ARM-Android-Gerät mit Vulkan (empfohlen mindestens Snapdragon 765, Adreno 620, 6 GB RAM)", "en": "64-bit ARM Android device with Vulkan (recommended at least Snapdragon 765, Adreno 620, 6 GB RAM)"},
+      {"de": "Steam-Version von Black Ops II inklusive Zombies- und Multiplayer-Dateien", "en": "The Steam version of Black Ops II including the Zombies and multiplayer files"},
+      {"de": "APK aus den Releases. Der Launcher richtet die Spieldateien ein.", "en": "APK from the releases. The launcher sets up the game files."}
     ],
-    "kosten": "keine Bezahlung erwähnt",
-    "open_source": "unklar",
-    "lizenz": "nicht angegeben",
+    "kosten": "none_mentioned",
+    "open_source": "unclear",
+    "lizenz": {"de": "nicht angegeben", "en": "not stated"},
     "originalquelle": "https://github.com/SoldadoGhost/T6Requiem-APK",
     "entwickler_thread": "https://github.com/SoldadoGhost/T6Requiem-APK",
     "weitere_quellen": [],
     "bekannte_fehler": [
       {
         "id": "B1",
-        "symptom": "Das Spiel stürzt ab oder verhält sich fehlerhaft.",
-        "ursache": "Laut Projekt sind Fehler möglich; Meldungen laufen über den Discord-Server.",
+        "status": "note",
+        "symptom": {"de": "Das Spiel stürzt ab oder verhält sich fehlerhaft.", "en": "The game crashes or misbehaves."},
+        "ursache": {"de": "Laut Projekt sind Fehler möglich. Meldungen laufen über den Discord-Server.", "en": "The project says bugs can happen. Reports go through its Discord server."},
         "loesung": [
-          "Im T6-Requiem-Discord melden (Link im Repository).",
-          "Gerätemodell, Android-Version und eine Beschreibung angeben.",
-          "Falls vorhanden die Datei BO2/t6requiem_log.txt anhängen."
+          {"de": "Im T6-Requiem-Discord melden (Link im Repository).", "en": "Report it on the T6 Requiem Discord (link in the repository)."},
+          {"de": "Gerätemodell, Android-Version und eine Beschreibung angeben.", "en": "Include your device model, Android version and a description."},
+          {"de": "Falls vorhanden die Datei BO2/t6requiem_log.txt anhängen.", "en": "Attach BO2/t6requiem_log.txt if it exists."}
         ],
-        "status": "Hinweis",
-        "quelle": "README",
+        "quelle": {"de": "README", "en": "README"},
         "quelle_url": "https://github.com/SoldadoGhost/T6Requiem-APK"
       }
     ],
@@ -226,24 +255,29 @@
     "id": "stardew-valley",
     "spiel": "Stardew Valley",
     "mod_name": "ThorDualScreen (SMAPI-Mod)",
-    "typ": "Dual-Screen-Mod",
+    "typ": "dual-screen-mod",
+    "bild": "images/stardew-valley.svg",
+    "bild_alt": {"de": "Pixelbild: Feld mit Beetreihen und roter Scheune", "en": "Pixel art: a field with crop rows and a red barn"},
     "namensvarianten": ["Stardew", "Stardew Valley", "SDV", "Stardew Dual", "Stardew Dual Screen", "ThorDualScreen", "Thor Dual Screen"],
-    "kurz": "SMAPI-Mod, der den zweiten Bildschirm des Thor zum Touch-Begleiter für Stardew Valley in Cinderbox macht.",
+    "kurz": {
+      "de": "SMAPI-Mod, der den zweiten Bildschirm des Thor zum Touch-Begleiter für Stardew Valley in Cinderbox macht.",
+      "en": "A SMAPI mod that turns the Thor's second screen into a touch companion for Stardew Valley in Cinderbox."
+    },
     "du_brauchst": [
-      "AYN Thor",
-      "Cinderbox mit SMAPI",
-      "Eigene Kopie von Stardew Valley (Steam oder GOG)",
-      "Ordner ThorDualScreen aus den Releases, kopiert nach /sdcard/StardewValley/desktop/Mods/ThorDualScreen/",
-      "Vorher: Spielstände sichern"
+      {"de": "AYN Thor", "en": "AYN Thor"},
+      {"de": "Cinderbox mit SMAPI", "en": "Cinderbox with SMAPI"},
+      {"de": "Eigene Kopie von Stardew Valley (Steam oder GOG)", "en": "Your own copy of Stardew Valley (Steam or GOG)"},
+      {"de": "Ordner ThorDualScreen aus den Releases, kopiert nach /sdcard/StardewValley/desktop/Mods/ThorDualScreen/", "en": "The ThorDualScreen folder from the releases, copied to /sdcard/StardewValley/desktop/Mods/ThorDualScreen/"},
+      {"de": "Vorher: Spielstände sichern", "en": "Before you start: back up your saves"}
     ],
-    "kosten": "kostenlos",
-    "open_source": "ja",
+    "kosten": "free",
+    "open_source": "yes",
     "lizenz": "GPL-3.0",
     "originalquelle": "https://github.com/hung-eggie-do-covergo/stardew-thor-dual-screen",
     "entwickler_thread": "https://github.com/hung-eggie-do-covergo/stardew-thor-dual-screen/issues",
     "weitere_quellen": [],
     "bekannte_fehler": [],
-    "pruefnotiz": "Zuordnung unsicher: mit dem TikTok-Video aus Signal 09 abgleichen.",
+    "pruefnotiz": {"de": "Zuordnung unsicher: mit dem TikTok-Video aus Signal 09 abgleichen.", "en": "Not sure this is the right mod yet: compare it with the TikTok video from signal 09."},
     "pruefdatum": null,
     "entwurf_vom": "2026-11-24"
   }
