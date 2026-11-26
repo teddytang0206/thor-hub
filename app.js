@@ -23,9 +23,9 @@
       type: { "dual-screen-mod": "Dual-Screen-Mod", recomp: "Recomp" },
       cost: { free: "kostenlos", patreon: "Patreon", none_mentioned: "keine Bezahlung erwähnt" },
       os: { yes: "Open Source", unclear: "Open Source: unklar", no: "kein Open Source" },
-      checked: d => "geprüft am " + d, draftChip: "zusammengefasst · nicht geprüft", autoChip: "automatisch · nicht geprüft",
+      checked: d => "geprüft am " + d, autoChip: "automatisch · nicht geprüft",
       back: "← Alle Mods",
-      draftNotice: d => `Stand ${d}: aus der Originalquelle zusammengefasst und nicht von Hand geprüft. Im Zweifel gilt die Originalquelle.`,
+      asOf: d => `Stand ${d}. Im Zweifel gilt die Originalquelle.`,
       autoNotice: (d, stars, active) => `Automatisch aus GitHub-Daten erstellt (Stand ${d}) und von niemandem geprüft. ${stars} Sterne auf GitHub, zuletzt aktiv am ${active}. Lies vor der Installation die README und lade nur aus der Originalquelle.`,
       checkNote: "Prüfnotiz: ",
       needs: "Du brauchst", progress: (a, b) => `${a} von ${b} erledigt`, toSource: "Zur Originalquelle ↗", license: "Lizenz: ",
@@ -59,9 +59,9 @@
       type: { "dual-screen-mod": "Dual-screen mod", recomp: "Recomp" },
       cost: { free: "free", patreon: "Patreon", none_mentioned: "no payment mentioned" },
       os: { yes: "Open source", unclear: "Open source: unclear", no: "Not open source" },
-      checked: d => "checked " + d, draftChip: "summarised · not checked", autoChip: "automatic · not checked",
+      checked: d => "checked " + d, autoChip: "automatic · not checked",
       back: "← All mods",
-      draftNotice: d => `As of ${d}: summarised from the original source and not checked by hand. If in doubt, the original source wins.`,
+      asOf: d => `As of ${d}. If in doubt, the original source wins.`,
       autoNotice: (d, stars, active) => `Created automatically from GitHub data (as of ${d}) and not checked by anyone. ${stars} stars on GitHub, last active on ${active}. Read the README before installing and only download from the original source.`,
       checkNote: "Note: ",
       needs: "You need", progress: (a, b) => `${a} of ${b} done`, toSource: "Go to original source ↗", license: "License: ",
@@ -136,8 +136,8 @@
     list.append(h("li", { class: "chip type" }, t("type")[e.typ] || e.typ));
     list.append(h("li", { class: "chip " + (e.kosten === "free" ? "ok" : e.kosten === "patreon" ? "warn" : "") }, t("cost")[e.kosten] || e.kosten));
     list.append(h("li", { class: "chip " + (e.open_source === "yes" ? "ok" : "warn") }, t("os")[e.open_source] || e.open_source));
-    list.append(h("li", { class: "chip " + (e.pruefdatum ? "ok" : "warn") },
-      e.pruefdatum ? t("checked")(fmtDate(e.pruefdatum)) : e.auto ? t("autoChip") : t("draftChip")));
+    if (e.pruefdatum) list.append(h("li", { class: "chip ok" }, t("checked")(fmtDate(e.pruefdatum))));
+    else if (e.auto) list.append(h("li", { class: "chip warn" }, t("autoChip")));
     return list;
   }
 
@@ -201,10 +201,8 @@
       ? h("ul", { class: "errors" }, e.bekannte_fehler.map(errorItem))
       : h("p", { class: "empty" }, t("noErrors"));
 
-    const note = tr(e.pruefnotiz);
-    const notice = e.pruefdatum ? null : h("p", { class: "notice" },
-      e.auto ? t("autoNotice")(fmtDate(e.entwurf_vom), e.sterne ?? "?", e.zuletzt_aktiv ? fmtDate(e.zuletzt_aktiv) : "?") : t("draftNotice")(fmtDate(e.entwurf_vom)),
-      note ? h("br") : null, note ? t("checkNote") + note : null);
+    const notice = e.auto && !e.pruefdatum ? h("p", { class: "notice" },
+      t("autoNotice")(fmtDate(e.entwurf_vom), e.sterne ?? "?", e.zuletzt_aktiv ? fmtDate(e.zuletzt_aktiv) : "?")) : null;
 
     main.replaceChildren(
       h("a", { class: "back", href: "#" }, t("back")),
@@ -219,7 +217,8 @@
           h("h2", { id: "needs-h" }, t("needs"), progress), needs,
           h("div", { class: "actions" }, ext(e.originalquelle, t("toSource"), "btn")),
           e.weitere_quellen.length ? h("ul", { class: "sources" }, e.weitere_quellen.map(s => h("li", {}, ext(s.url, tr(s.titel))))) : null,
-          h("p", { class: "hint" }, t("license") + tr(e.lizenz))
+          h("p", { class: "hint" }, t("license") + tr(e.lizenz)),
+          e.auto ? null : h("p", { class: "hint" }, t("asOf")(fmtDate(e.pruefdatum || e.entwurf_vom)))
         ),
         helperSection(e),
         h("section", { class: "card", "aria-labelledby": "err-h" }, h("h2", { id: "err-h" }, t("errors")), errors)
