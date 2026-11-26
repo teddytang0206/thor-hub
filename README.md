@@ -25,6 +25,16 @@ Der Hub stellt keine Mod-Dateien bereit. Alle Downloads laufen über die Origina
 | `images/`, `logo.svg` | Eigene Pixel-Art-Bilder, keine Originalgrafiken der Spiele |
 | `tests/` | Suchtest (Node) und Render-Check (Playwright) |
 
+## Neue Mods kommen automatisch
+
+Jeden Montag läuft die GitHub Action „Neue Mods suchen“ (`.github/workflows/neue-mods.yml`). Sie sucht auf GitHub nach Repos zu AYN Thor, Dual Screen und Recomps und nimmt passende ohne Prüfung auf. Der Steckbrief entsteht nur aus GitHub-Daten, ohne KI. Von Hand angelegte Steckbriefe bleiben unverändert.
+
+- Von Hand starten: im Repo unter **Actions → Neue Mods suchen → Run workflow**
+- Einen Mod wieder loswerden: seine Repo-Adresse in `data/sperrliste.json` eintragen, beim nächsten Lauf verschwindet er
+- Filter anpassen (Sterne, Alter, Suchbegriffe): `CONFIG` oben in `scripts/discover.mjs`
+
+Automatische Einträge sind auf der Seite als „automatisch · nicht geprüft“ markiert und zeigen einen Warnhinweis.
+
 ## Lokal starten
 
 ```bash
@@ -38,6 +48,7 @@ Die Seite lädt die Steckbriefe per `fetch`, deshalb funktioniert ein Doppelklic
 
 ```bash
 node tests/search.test.js
+node tests/discover.test.mjs
 python3 tests/render_check.py   # braucht: pip install playwright && playwright install chromium
 ```
 

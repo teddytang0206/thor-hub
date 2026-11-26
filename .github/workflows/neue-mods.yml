@@ -1,0 +1,51 @@
+# Sucht jede Woche automatisch neue Mods und Recomps und nimmt sie in den Hub auf.
+# Läuft ohne KI, nur mit GitHub-Daten. Kann unter „Actions“ auch von Hand gestartet werden.
+name: Neue Mods suchen
+
+on:
+  schedule:
+    - cron: "17 5 * * 1"   # montags 05:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: neue-mods
+  cancel-in-progress: false
+
+jobs:
+  suchen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Tests
+        run: |
+          node tests/search.test.js
+          node tests/discover.test.mjs
+
+      - name: GitHub durchsuchen und Steckbriefe aktualisieren
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/discover.mjs
+
+      - name: Suchtest mit neuen Daten
+        run: node tests/search.test.js
+
+      - name: Änderungen hochladen
+        run: |
+          if git diff --quiet -- data/steckbriefe.json; then
+            echo "Keine Änderungen."
+            exit 0
+          fi
+          git config user.name "thor-hub-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/steckbriefe.json
+          git commit -m "Automatisch: neue oder aktualisierte Mods ($(date -u +%Y-%m-%d))"
+          git push

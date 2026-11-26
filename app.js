@@ -23,9 +23,10 @@
       type: { "dual-screen-mod": "Dual-Screen-Mod", recomp: "Recomp" },
       cost: { free: "kostenlos", patreon: "Patreon", none_mentioned: "keine Bezahlung erwähnt" },
       os: { yes: "Open Source", unclear: "Open Source: unklar", no: "kein Open Source" },
-      checked: d => "geprüft am " + d, draftChip: "Entwurf · ungeprüft",
+      checked: d => "geprüft am " + d, draftChip: "zusammengefasst · nicht geprüft", autoChip: "automatisch · nicht geprüft",
       back: "← Alle Mods",
-      draftNotice: d => `Entwurf vom ${d}: aus der Originalquelle zusammengefasst, noch nicht geprüft. Im Zweifel gilt die Originalquelle.`,
+      draftNotice: d => `Stand ${d}: aus der Originalquelle zusammengefasst und nicht von Hand geprüft. Im Zweifel gilt die Originalquelle.`,
+      autoNotice: (d, stars, active) => `Automatisch aus GitHub-Daten erstellt (Stand ${d}) und von niemandem geprüft. ${stars} Sterne auf GitHub, zuletzt aktiv am ${active}. Lies vor der Installation die README und lade nur aus der Originalquelle.`,
       checkNote: "Prüfnotiz: ",
       needs: "Du brauchst", progress: (a, b) => `${a} von ${b} erledigt`, toSource: "Zur Originalquelle ↗", license: "Lizenz: ",
       errors: "Bekannte Fehler", noErrors: "Die Quelle nennt bisher keine bekannten Fehler. Nutze den Helfer oder frag im Entwickler-Thread.",
@@ -45,7 +46,7 @@
       kinds: { loesung: "Lösung", offen: "Bekannt, noch ohne Lösung", rueckfrage: "Rückfrage", unbekannt: "Unbekannt" },
       loadFail: "Die Steckbriefe konnten nicht geladen werden. Bitte Seite neu laden.",
       navHub: "Hub", navEvidence: "Build Evidence (D3)", skip: "Zum Inhalt springen", langGroup: "Sprache",
-      footer: "Der Thor-Hub stellt keine Dateien bereit. Downloads laufen immer über die Originalquelle. MVP V1 von Teddy Tang, HdM, WiSe 2026/27. Steckbriefe gelten als Entwurf, bis ich sie gegen die Quelle geprüft habe. Die Bilder sind eigene Pixel-Art-Motive, keine Originalgrafiken der Spiele.",
+      footer: "Der Thor-Hub stellt keine Dateien bereit. Downloads laufen immer über die Originalquelle. MVP V1 von Teddy Tang, HdM, WiSe 2026/27. Neue Mods kommen jede Woche automatisch dazu und werden nicht von Hand geprüft. Die Bilder sind eigene Pixel-Art-Motive, keine Originalgrafiken der Spiele.",
       answerLang: "Deutsch", du: "per Du"
     },
     en: {
@@ -58,9 +59,10 @@
       type: { "dual-screen-mod": "Dual-screen mod", recomp: "Recomp" },
       cost: { free: "free", patreon: "Patreon", none_mentioned: "no payment mentioned" },
       os: { yes: "Open source", unclear: "Open source: unclear", no: "Not open source" },
-      checked: d => "checked " + d, draftChip: "Draft · unchecked",
+      checked: d => "checked " + d, draftChip: "summarised · not checked", autoChip: "automatic · not checked",
       back: "← All mods",
-      draftNotice: d => `Draft from ${d}: summarised from the original source and not checked yet. If in doubt, the original source wins.`,
+      draftNotice: d => `As of ${d}: summarised from the original source and not checked by hand. If in doubt, the original source wins.`,
+      autoNotice: (d, stars, active) => `Created automatically from GitHub data (as of ${d}) and not checked by anyone. ${stars} stars on GitHub, last active on ${active}. Read the README before installing and only download from the original source.`,
       checkNote: "Note: ",
       needs: "You need", progress: (a, b) => `${a} of ${b} done`, toSource: "Go to original source ↗", license: "License: ",
       errors: "Known issues", noErrors: "The source doesn't list any known issues yet. Try the helper or ask in the developer thread.",
@@ -80,7 +82,7 @@
       kinds: { loesung: "Fix", offen: "Known, no fix yet", rueckfrage: "Question", unbekannt: "Unknown" },
       loadFail: "The mod pages couldn't be loaded. Please reload.",
       navHub: "Hub", navEvidence: "Build evidence (D3)", skip: "Skip to content", langGroup: "Language",
-      footer: "The Thor-Hub doesn't host any files. Downloads always go through the original source. MVP V1 by Teddy Tang, HdM, winter term 2026/27. Mod pages count as drafts until I've checked them against the source. The images are original pixel art, not artwork from the games.",
+      footer: "The Thor-Hub doesn't host any files. Downloads always go through the original source. MVP V1 by Teddy Tang, HdM, winter term 2026/27. New mods are added automatically every week and aren't checked by hand. The images are original pixel art, not artwork from the games.",
       answerLang: "English", du: "in a casual tone"
     }
   };
@@ -134,7 +136,8 @@
     list.append(h("li", { class: "chip type" }, t("type")[e.typ] || e.typ));
     list.append(h("li", { class: "chip " + (e.kosten === "free" ? "ok" : e.kosten === "patreon" ? "warn" : "") }, t("cost")[e.kosten] || e.kosten));
     list.append(h("li", { class: "chip " + (e.open_source === "yes" ? "ok" : "warn") }, t("os")[e.open_source] || e.open_source));
-    list.append(h("li", { class: "chip " + (e.pruefdatum ? "ok" : "warn") }, e.pruefdatum ? t("checked")(fmtDate(e.pruefdatum)) : t("draftChip")));
+    list.append(h("li", { class: "chip " + (e.pruefdatum ? "ok" : "warn") },
+      e.pruefdatum ? t("checked")(fmtDate(e.pruefdatum)) : e.auto ? t("autoChip") : t("draftChip")));
     return list;
   }
 
@@ -200,7 +203,8 @@
 
     const note = tr(e.pruefnotiz);
     const notice = e.pruefdatum ? null : h("p", { class: "notice" },
-      t("draftNotice")(fmtDate(e.entwurf_vom)), note ? h("br") : null, note ? t("checkNote") + note : null);
+      e.auto ? t("autoNotice")(fmtDate(e.entwurf_vom), e.sterne ?? "?", e.zuletzt_aktiv ? fmtDate(e.zuletzt_aktiv) : "?") : t("draftNotice")(fmtDate(e.entwurf_vom)),
+      note ? h("br") : null, note ? t("checkNote") + note : null);
 
     main.replaceChildren(
       h("a", { class: "back", href: "#" }, t("back")),

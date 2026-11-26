@@ -55,7 +55,7 @@
     <div class="tablewrap"><table>
       <thead><tr><th>#</th><th>Criterion</th><th>Status on 24 Nov</th></tr></thead>
       <tbody>
-        <tr><td>1</td><td>All 5 mod pages complete and checked against the original source</td><td><span class="badge warn">open</span> Drafts are done. Claude summarised them from READMEs and GitHub issues, and I still have to check them. Every page is marked "draft · unchecked".</td></tr>
+        <tr><td>1</td><td>All 5 mod pages complete and checked against the original source</td><td><span class="badge bad">changed</span> On 26 Nov I decided the hub runs fully automatically and I no longer check pages by hand. That drops this criterion. The first five pages are marked "summarised · not checked", automatic ones "automatic · not checked".</td></tr>
         <tr><td>2</td><td>Misspellings lead to the right mod page</td><td><span class="badge ok">pre-test 14/14</span> Claude ran 14 automated search cases (<code>tests/search.test.js</code>). My own test with 5 spellings is still to do.</td></tr>
         <tr><td>3</td><td>Helper: at least 8 of 10 cases right, says "unknown" when it doesn't know, no harmful instruction</td><td><span class="badge warn">open</span> The helper is built but has never been tested with real cases. That's the <a href="#test">next test</a>.</td></tr>
         <tr><td>4</td><td>A test person with a Thor finds the requirements without help</td><td><span class="badge warn">open</span> I haven't asked anyone yet.</td></tr>
@@ -79,6 +79,7 @@
         <tr><td>24 Nov</td><td>Pre-tests</td><td>Search test: the first run passed 13 of 14, and the failure was in the test itself (see failed attempts). After that 14 of 14. Render check in Chromium at 412 px: no console errors, plan B kicks in. Two usability problems found and fixed.</td></tr>
         <tr><td>24 Nov</td><td>This GitHub Pages version</td><td>Added navigation and this page, switched the helper off on GitHub Pages and reworked the text to drop typical AI phrasing. I created the repo myself because Claude can't create one on my account. Uploading didn't work at first either, since the Claude GitHub app wasn't installed. Once I allowed it for this repo, Claude uploaded the files.</td></tr>
         <tr><td>24 Nov</td><td>Retro design</td><td>At my request Claude switched the design to an 8-bit and 16-bit look. Headings and labels use a pixel font, body text uses a readable pixel sans. There are no logos or trademarks of console makers.</td></tr>
+        <tr><td>26 Nov</td><td>Fully automatic intake of new mods</td><td>At my request a GitHub Action now searches for new repos every Monday and adds matching ones to the hub without review. The page is built from GitHub data only (description, license, APK in a release, open issues), no AI. The script never touches pages created by hand.</td></tr>
         <tr><td>26 Nov</td><td>Images and language switch</td><td>Each mod now has its own pixel art image that Claude drew with a script. I also got a German/English switch. The mod pages exist in both languages, and the helper answers in the selected one.</td></tr>
       </tbody>
     </table></div>
@@ -95,6 +96,7 @@
         <tr><td>24 Nov</td><td><code>kannst du eine github site bauen … und es nach best practice entkifiziieren</code></td><td>This site</td></tr>
         <tr><td>24 Nov</td><td><code>design soll homebrew/snes/8bit ähnlich sein</code></td><td>Retro design</td></tr>
         <tr><td>26 Nov</td><td><code>kannst du bilder und einen regler für deutsch/englisch einbauen?</code></td><td>Pixel art images, DE/EN switch</td></tr>
+        <tr><td>26 Nov</td><td><code>okay, ich will dass das aber alles rein automatisch läuft und ich keine steckbriefe mehr prüfen muss</code></td><td>Weekly intake without review, without AI</td></tr>
       </tbody>
     </table></div>
 
@@ -131,6 +133,7 @@ Reply ONLY with JSON: {"type":..., "reference":..., "text":..., "steps":[...], "
         <tr><td>Install helper</td><td>Claude through the artifact feature "ask Claude", "quick" tier</td><td>No API key needed and I have no budget. The quick tier is enough for short answers from one page.</td><td>Only runs inside a Claude artifact page. Whether people without my account can use it is unclear.</td></tr>
         <tr><td>Search</td><td>Own rules without AI (edit distance and character trigrams)</td><td>Free, fast and testable with fixed cases.</td><td>Only finds names and variants listed on the pages.</td></tr>
         <tr><td>Images</td><td>Pixel art drawn by a Python script, saved as SVG</td><td>Original artwork instead of protected game graphics. SVG stays sharp and is tiny.</td><td>The images only hint at each game.</td></tr>
+        <tr><td>Finding new mods</td><td>GitHub Action with its own Node script (<code>scripts/discover.mjs</code>), GitHub search</td><td>Free for public repos and runs without my PC. No AI service needed.</td><td>Only finds projects on GitHub. TikTok, X and Reddit are left out. "You need" stays generic and points to the README.</td></tr>
         <tr><td>Public version</td><td>GitHub Pages</td><td>Free, no server, and anyone can open the link.</td><td>Static files only, so no helper.</td></tr>
         <tr><td>Testing</td><td>Node.js for the search tests, Playwright with Chromium for the render check</td><td>Repeatable. The tests live in the repo under <code>tests/</code>.</td><td>Doesn't replace testing on the Thor and with real users.</td></tr>
         <tr><td>Not used</td><td>Local model on my RTX 3070, paid API, Render</td><td>A local model only runs while my PC is on. There's no budget for an API. Render isn't needed while the site is static.</td><td>For a public helper I'll have to pick one of these later or stay with plan B.</td></tr>
@@ -152,6 +155,9 @@ Reply ONLY with JSON: {"type":..., "reference":..., "text":..., "steps":[...], "
         <tr><td>In the render check the Minish Cap helper only showed up after seven issue entries. The heading also had a focus ring on load.</td><td>The helper now sits above "known issues", and focus only moves when the view changes.</td></tr>
         <tr><td>"Ask Claude" only exists in Claude artifact pages. On GitHub Pages the helper would need a paid API or its own server.</td><td>Public version without the helper (plan B from the backlog), test version with the helper as an artifact. The page detects GitHub Pages and shows the pointer to the known issues straight away.</td></tr>
         <tr><td>Game covers and screenshots were the obvious choice for images. They're copyrighted, and I can't just show characters like Link or Pokémon.</td><td>Claude drew original pictures instead, such as a twilight sky for Dusklight and a green gem for Emerald. I can add my own screenshots from the Thor later.</td></tr>
+        <tr><td>For AI-written automatic pages I planned to use the free AI in GitHub Actions ("GitHub Models"). Research showed GitHub shut the service down in July 2026.</td><td>I went with pages built from GitHub data only. The alternatives were the Claude API (costs money) or a local model on my PC (only runs while it's on).</td></tr>
+        <tr><td>Claude warned that without review a repo with a bad or harmful APK could end up in the hub. That hits my core promise of trust.</td><td>I still don't want a review step. As protection there are filters (at least 3 stars, maintained in the last year, at least two weeks old, related to dual screen, AYN Thor or recomp), a block list (<code>data/sperrliste.json</code>) and a clear label with a warning.</td></tr>
+        <tr><td>In the first test of the search script a made-up superhero wallpaper repo got through the filter just because "thor" was in its name.</td><td>"Thor" on its own no longer counts. It needs "AYN Thor", "dual screen", "second screen" or "recomp". The case is a test in <code>tests/discover.test.mjs</code>.</td></tr>
         <tr><td>Claude couldn't create a repository on my GitHub account and at first couldn't upload either, because the Claude GitHub app wasn't installed there.</td><td>I created the empty repo and allowed the Claude app for this repo only. After that Claude uploaded the files.</td></tr>
       </tbody>
     </table></div>
