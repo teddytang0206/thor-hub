@@ -22,6 +22,7 @@ const results = [
   repo("marvel-thor-wallpaper", { description: "Wallpapers of a superhero", topics: [] }),
   repo("gesperrt"),
   repo("cool-recomp", { description: "Native Android recomp of a PC game" }),
+  repo("thor-launcher", { description: "A launcher for the AYN Thor", topics: ["android", "ayn-thor"] }),
   tmc,
 ];
 const api = {
@@ -31,7 +32,7 @@ const api = {
 };
 const { entries, report } = await run({ api, entries: structuredClone(manual), blocklist: ["https://github.com/beispiel/gesperrt"], today: "2026-11-26", now, log: () => {} });
 
-assert.deepEqual(report.added.sort(), ["beispiel/cool-recomp", "beispiel/gute-mod"]);
+assert.deepEqual(report.added.sort(), ["beispiel/cool-recomp", "beispiel/gute-mod", "beispiel/thor-launcher"]);
 const skipped = Object.fromEntries(report.skipped);
 assert.equal(skipped["beispiel/wenig-sterne"], "zu wenige Sterne");
 assert.equal(skipped["beispiel/alt"], "zu lange nicht gepflegt");
@@ -45,11 +46,16 @@ assert.equal(g.auto, true); assert.equal(g.typ, "dual-screen-mod"); assert.equal
 assert.match(g.du_brauchst[1].de, /APK aus den Releases/);
 assert.equal(g.bekannte_fehler[0].status, "open"); assert.equal(g.bekannte_fehler[0].quelle_url, "https://github.com/beispiel/gute-mod/issues/4");
 assert.equal(entries.find(e => e.repo === "beispiel/cool-recomp").typ, "recomp");
+const launcher = entries.find(e => e.repo === "beispiel/thor-launcher");
+assert.equal(launcher.typ, "app");
+assert.ok(!launcher.namensvarianten.includes("android"), "allgemeine Topics gehören nicht in die Namensvarianten");
+launcher.bild = "images/eigenes.svg"; // eigenes Bild, das beim Auffrischen bleiben muss
 
 // zweiter Lauf: keine Duplikate, Auto-Einträge werden aufgefrischt
 const second = await run({ api, entries, blocklist: ["https://github.com/beispiel/gesperrt"], today: "2026-12-03", now, log: () => {} });
 assert.equal(second.report.added.length, 0);
-assert.deepEqual(second.report.refreshed.sort(), ["beispiel/cool-recomp", "beispiel/gute-mod"]);
+assert.deepEqual(second.report.refreshed.sort(), ["beispiel/cool-recomp", "beispiel/gute-mod", "beispiel/thor-launcher"]);
+assert.equal(second.entries.find(e => e.repo === "beispiel/thor-launcher").bild, "images/eigenes.svg");
 assert.equal(second.entries.find(e => e.repo === "beispiel/gute-mod").entwurf_vom, "2026-11-26");
 
 // Sperrliste nachträglich: Auto-Eintrag verschwindet

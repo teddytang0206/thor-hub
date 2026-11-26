@@ -36,6 +36,8 @@ export const CONFIG = {
 };
 
 const DAY = 86400000;
+// Topics, die auf fast jedes Repo passen und die Suche verwässern würden
+const GENERIC_TOPICS = new Set(["android", "android-app", "ayn-thor", "ayn thor", "kotlin", "java", "foss", "handheld", "gaming-handheld", "gaming handheld", "dual-screen", "dual screen", "no-root", "no root", "open-source", "quality-of-life", "quality of life"]);
 const slug = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 48);
 const words = s => s.replace(/[-_.]+/g, " ").replace(/([a-z])([A-Z])/g, "$1 $2").trim();
 const both = s => ({ de: s, en: s });
@@ -79,7 +81,9 @@ export function buildEntry(repo, releases, issues, today) {
   const desc = (repo.description || "").trim();
   const text = `${repo.name} ${desc} ${(repo.topics || []).join(" ")}`;
   const hasApk = releases.some(r => (r.assets || []).some(a => /\.apk$/i.test(a.name)));
-  const isRecomp = /recomp|port\b|native/i.test(text) && !/dual[\s-]?screen/i.test(text);
+  const typ = /recomp|decomp|recompil|native port|\bport\b/i.test(text) ? "recomp"
+    : /launcher|utility|assistant|frontend|button|tool|widget|overlay|switcher|\bapp\b/i.test(text) && !/\bmod\b/i.test(text) ? "app"
+    : "dual-screen-mod";
   const patreon = /patreon/i.test(desc) || (repo.homepage || "").includes("patreon");
   const license = repo.license && repo.license.spdx_id && repo.license.spdx_id !== "NOASSERTION" ? repo.license.spdx_id : null;
   const nice = words(repo.name);
@@ -107,10 +111,10 @@ export function buildEntry(repo, releases, issues, today) {
     repo: repo.full_name,
     spiel: nice,
     mod_name: repo.full_name,
-    typ: isRecomp ? "recomp" : "dual-screen-mod",
+    typ,
     bild: "images/auto.svg",
     bild_alt: { de: "Pixelbild: Spielmodul mit Fragezeichen", en: "Pixel art: a game cartridge with a question mark" },
-    namensvarianten: [...new Set([repo.name, nice, ...(repo.topics || []).map(words)])],
+    namensvarianten: [...new Set([repo.name, nice, ...(repo.topics || []).filter(t => !GENERIC_TOPICS.has(t.toLowerCase())).map(words)])],
     kurz: desc ? { de: `Beschreibung aus GitHub: ${desc}`, en: `Description from GitHub: ${desc}` }
                : { de: "Keine Beschreibung auf GitHub.", en: "No description on GitHub." },
     du_brauchst,
@@ -151,6 +155,8 @@ export async function run({ api, entries, blocklist, today, now = Date.now(), lo
     const entry = buildEntry(repo, await api.releases(repo.full_name), await api.issues(repo.full_name), today);
     if (existing) {
       entry.id = existing.id; entry.entwurf_vom = existing.entwurf_vom;
+      // eigenes Bild (nicht der Platzhalter) bleibt erhalten
+      if (existing.bild && existing.bild !== "images/auto.svg") { entry.bild = existing.bild; entry.bild_alt = existing.bild_alt; }
       entries[entries.indexOf(existing)] = entry; report.refreshed.push(repo.full_name);
     } else {
       while (knownIds.has(entry.id)) entry.id += "-2";

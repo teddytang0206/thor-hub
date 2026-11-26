@@ -618,17 +618,15 @@
     "spiel": "ff7 recomp android",
     "mod_name": "bhuiyah/ff7-recomp-android",
     "typ": "recomp",
-    "bild": "images/auto.svg",
+    "bild": "images/ff7-recomp-android.svg",
     "bild_alt": {
-      "de": "Pixelbild: Spielmodul mit Fragezeichen",
-      "en": "Pixel art: a game cartridge with a question mark"
+      "de": "Pixelbild: Industriestadt bei Nacht mit grün leuchtenden Rohren",
+      "en": "Pixel art: an industrial city at night with glowing green pipes"
     },
     "namensvarianten": [
       "ff7-recomp-android",
       "ff7 recomp android",
       "7th heaven",
-      "android",
-      "ayn thor",
       "ffnx",
       "final fantasy vii",
       "static recompilation"
@@ -785,11 +783,11 @@
     "repo": "stormpanda/better-dual-screen-assistant",
     "spiel": "better dual screen assistant",
     "mod_name": "stormpanda/better-dual-screen-assistant",
-    "typ": "dual-screen-mod",
-    "bild": "images/auto.svg",
+    "typ": "app",
+    "bild": "images/better-dual-screen-assistant.svg",
     "bild_alt": {
-      "de": "Pixelbild: Spielmodul mit Fragezeichen",
-      "en": "Pixel art: a game cartridge with a question mark"
+      "de": "Pixelbild: zwei gestapelte Bildschirme mit Schraubenschlüssel",
+      "en": "Pixel art: two stacked screens with a wrench"
     },
     "namensvarianten": [
       "better-dual-screen-assistant",
@@ -950,28 +948,18 @@
     "repo": "denissteinhorst/thor-back-button-hero",
     "spiel": "thor back button hero",
     "mod_name": "denissteinhorst/thor-back-button-hero",
-    "typ": "dual-screen-mod",
-    "bild": "images/auto.svg",
+    "typ": "app",
+    "bild": "images/thor-back-button-hero.svg",
     "bild_alt": {
-      "de": "Pixelbild: Spielmodul mit Fragezeichen",
-      "en": "Pixel art: a game cartridge with a question mark"
+      "de": "Pixelbild: runde Zurück-Taste mit rotem Umhang",
+      "en": "Pixel art: a round back button wearing a red cape"
     },
     "namensvarianten": [
       "thor-back-button-hero",
       "thor back button hero",
       "accessibility service",
-      "android",
-      "android app",
       "app switcher",
-      "ayn thor",
       "back button",
-      "dual screen",
-      "foss",
-      "gaming handheld",
-      "handheld",
-      "kotlin",
-      "no root",
-      "quality of life",
       "shoulder buttons"
     ],
     "kurz": {
@@ -1010,11 +998,11 @@
     "repo": "BrianJr03/Jarngreipr",
     "spiel": "Jarngreipr",
     "mod_name": "BrianJr03/Jarngreipr",
-    "typ": "dual-screen-mod",
-    "bild": "images/auto.svg",
+    "typ": "app",
+    "bild": "images/jarngreipr.svg",
     "bild_alt": {
-      "de": "Pixelbild: Spielmodul mit Fragezeichen",
-      "en": "Pixel art: a game cartridge with a question mark"
+      "de": "Pixelbild: Eisenhandschuh neben App-Symbolen",
+      "en": "Pixel art: an iron gauntlet next to app icons"
     },
     "namensvarianten": [
       "Jarngreipr"
@@ -1055,11 +1043,11 @@
     "repo": "ZahakJ/tandem",
     "spiel": "tandem",
     "mod_name": "ZahakJ/tandem",
-    "typ": "dual-screen-mod",
-    "bild": "images/auto.svg",
+    "typ": "app",
+    "bild": "images/tandem.svg",
     "bild_alt": {
-      "de": "Pixelbild: Spielmodul mit Fragezeichen",
-      "en": "Pixel art: a game cartridge with a question mark"
+      "de": "Pixelbild: Tandem-Fahrrad mit kleinem Doppelbildschirm",
+      "en": "Pixel art: a tandem bike with a small dual screen"
     },
     "namensvarianten": [
       "tandem"

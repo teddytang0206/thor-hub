@@ -14,13 +14,13 @@
   /* ---------- Sprache ---------- */
   const I18N = {
     de: {
-      tagline: "Dual-Screen-Mods und Recomps für den AYN Thor",
+      tagline: "Dual-Screen-Mods, Recomps und Apps für den AYN Thor",
       lead: "Für jeden Mod steht hier, was du zum Installieren brauchst, ob er etwas kostet und ob der Code offen liegt. Wenn er nicht startet, schau in die Liste der bekannten Fehler.",
       searchLabel: "Spiel suchen", searchPh: "z. B. Minish Cap, Stardew, BO2",
-      countAll: n => `${n} Mods und Recomps`, countHits: n => n === 1 ? "1 Treffer" : `${n} Treffer`,
+      countAll: n => `${n} Mods, Recomps und Apps`, countHits: n => n === 1 ? "1 Treffer" : `${n} Treffer`,
       didYouMean: "Kein genauer Treffer. Meintest du ", none: "Noch nicht im Hub. Prüf die Schreibweise oder schau später wieder vorbei.",
-      gridLabel: "Mods und Recomps", chipsLabel: "Kennzeichen",
-      type: { "dual-screen-mod": "Dual-Screen-Mod", recomp: "Recomp" },
+      gridLabel: "Mods, Recomps und Apps", chipsLabel: "Kennzeichen",
+      type: { "dual-screen-mod": "Dual-Screen-Mod", recomp: "Recomp", app: "App" },
       cost: { free: "kostenlos", patreon: "Patreon", none_mentioned: "keine Bezahlung erwähnt" },
       os: { yes: "Open Source", unclear: "Open Source: unklar", no: "kein Open Source" },
       checked: d => "geprüft am " + d, autoChip: "automatisch · nicht geprüft",
@@ -50,13 +50,13 @@
       answerLang: "Deutsch", du: "per Du"
     },
     en: {
-      tagline: "Dual-screen mods and recomps for the AYN Thor",
+      tagline: "Dual-screen mods, recomps and apps for the AYN Thor",
       lead: "For every mod you'll find what you need to install it, whether it costs anything and whether the code is open. If it won't start, check the list of known issues.",
       searchLabel: "Search a game", searchPh: "e.g. Minish Cap, Stardew, BO2",
-      countAll: n => `${n} mods and recomps`, countHits: n => n === 1 ? "1 result" : `${n} results`,
+      countAll: n => `${n} mods, recomps and apps`, countHits: n => n === 1 ? "1 result" : `${n} results`,
       didYouMean: "No exact match. Did you mean ", none: "Not in the hub yet. Check the spelling or come back later.",
-      gridLabel: "Mods and recomps", chipsLabel: "Labels",
-      type: { "dual-screen-mod": "Dual-screen mod", recomp: "Recomp" },
+      gridLabel: "Mods, recomps and apps", chipsLabel: "Labels",
+      type: { "dual-screen-mod": "Dual-screen mod", recomp: "Recomp", app: "App" },
       cost: { free: "free", patreon: "Patreon", none_mentioned: "no payment mentioned" },
       os: { yes: "Open source", unclear: "Open source: unclear", no: "Not open source" },
       checked: d => "checked " + d, autoChip: "automatic · not checked",
